@@ -1,0 +1,11 @@
+#Documentación:
+
+Nombres de variables separadas por un guión bajo , ejemplo:
+Mi_Variable = 0
+
+Nombres de funciones inicial mayúscula por palabra y juntos, ejemplo:
+MiFuncion()
+
+Parametros de las funciones inician con una p minúscula seguida de un guión bajo y luego mayúscula inicial por palabra, ejemplo:
+p_Parametro_Prueba
+
