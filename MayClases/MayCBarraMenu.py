@@ -3,7 +3,7 @@
 #
 #       sin título.py
 #       
-#       Copyright 2010 Daniel Sola <danielz360@danielz360-laptop>
+#       Copyleft 2010 Informática al Alcance de Todos (CA)
 #       
 #       This program is free software; you can redistribute it and/or modify
 #       it under the terms of the GNU General Public License as published by
