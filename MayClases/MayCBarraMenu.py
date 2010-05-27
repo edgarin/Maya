@@ -45,7 +45,7 @@ class MayCBarraMenu(object):
 		return self.Interface
 		
 	def AgregarMensaje(self,p_Boton,p_posicion_mensaje):
-		#Agrego Mensaje
+		#Agrego Mensaje tooltip
 		p_Boton.AgregarMensaje(self.Interface,p_posicion_mensaje)		
 	
 	def QuitarMensaje(self):
