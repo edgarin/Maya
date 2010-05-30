@@ -63,15 +63,15 @@ class MayCPrincipal():
 			self.Fondo=pygame.transform.scale(self.Fondo,(565,400))
 			
 			#Creacion Menu Superior
-			self.Menu_Superior=MayCBarraMenu(self.Posicion_Surface1,self.Tamano_Surface1,self.path_recursos_Ico,'Horizontal')
-			self.Menu_Superior.CreacionMenus(3,self.Imagenes_Barra_Superior,self.Mensajes_Barra_Superior,(10,5),(70,100),'Menu')
+			self.Menu_Superior=MayCBarraMenu(self.Pantalla_Principal,self.Posicion_Surface1,self.Tamano_Surface1,self.path_recursos_Ico,'Horizontal')
+			self.Menu_Superior.CreacionMenus(3,self.Imagenes_Barra_Superior,self.Mensajes_Barra_Superior,(10,5),(70,100),p_Tipo='BMenuSuperior')
 			self.Subme(len(self.Menu_Superior.Menus))
-			self.Menu_Superior.Agregar(self.Pantalla_Principal)
+			self.Menu_Superior.Insertar()
 			
 			#Creacion Menu Lateral
-			self.Menu_Lateral=MayCBarraMenu(self.Posicion_Surface2,self.Tamano_Surface2,self.path_recursos_Ico,'Vertical')
-			self.Menu_Lateral.CreacionMenus(3,self.Imagenes_Barra_Lateral,self.Mensajes_Barra_Lateral,(10,5),(70,100),'Menu')
-			self.Menu_Lateral.Agregar(self.Pantalla_Principal)
+			self.Menu_Lateral=MayCBarraMenu(self.Pantalla_Principal,self.Posicion_Surface2,self.Tamano_Surface2,self.path_recursos_Ico,'Vertical')
+			self.Menu_Lateral.CreacionMenus(3,self.Imagenes_Barra_Lateral,self.Mensajes_Barra_Lateral,(10,5),(70,100),p_Tipo='BMenuLateral')
+			self.Menu_Lateral.Insertar()
 			
 			#Creacion de la pantalla donde se desarrolla el juego
 			self.Pantalla_Principal.blit(self.Fondo,(75,100))
@@ -83,26 +83,16 @@ class MayCPrincipal():
 	
 	def Subme(self,p_No_Menus):
 		for contador in range(p_No_Menus):
-			SubBarraMenu=MayCBarraMenu((0,0),(150,60),self.path_recursos_Ico,'Horizontal')
+			SubBarraMenu=MayCBarraMenu(self.Pantalla_Principal,(0,0),(150,60),self.path_recursos_Ico,'Horizontal')
 			self.Menu_Superior.Menus[contador].CreacionSubMenu(self.Menus_xSubmenus[contador],SubBarraMenu,self.Imagenes_SubMenus[contador],self.Mensajes_SubMenus[contador])		
-		
-	def ReImprimir(self,p_Boton):
-		
-		self.Pantalla_Principal.fill((0,0,0))		
-		#Inserccion Menu Superior
-		self.Menu_Superior.Agregar(self.Pantalla_Principal)		
-		
-		#Inserccion Menu Lateral
-		self.Menu_Lateral.Agregar(self.Pantalla_Principal)
-		
-		#Creacion de la pantalla donde se desarrolla el juego
-		self.Pantalla_Principal.blit(self.Fondo,(75,100))
-		
-		if (p_Boton !=None):
-			self.Pantalla_Principal.blit(p_Boton.ObtenerSubMenu(),(p_Boton.pos_x,100))
-	
-	def BusquedaGeneral(self,p_evento):
+			
+	#Se Retorna la Interface en Donde el Mouse esta ocasionando Eventos
+	def BusquedaGeneral(self,p_evento,p_Interface_Anterior=None):
 		Interfaces=[self.Menu_Superior,self.Menu_Lateral]
+		
+		if(p_Interface_Anterior!=None):
+			Interfaces.append(p_Interface_Anterior.Boton_NJuego.SubMenu)
+			
 		pos_x2,pos_y2=p_evento.pos
 		
 		for interface in Interfaces:
@@ -111,33 +101,69 @@ class MayCPrincipal():
 			
 			if ((pos_x2>=pos_x and pos_x2<=(pos_x+Ancho)) and (pos_y2>=pos_y and pos_y2<=(pos_y+Alto))):
 				return interface
-													
+	
+	def ReImprimir(self,p_Reimprime=None):
+		#Si se dio Click en un Menu con Submenu ya no vuelve a Reimprimir hasta q se de click 
+		#afuera del Menu seleccionado
+		if (p_Reimprime==True):
+			return
+		
+		self.Pantalla_Principal.fill((0,0,0))				
+		
+		#Inserccion Menu Lateral a la Pantalla
+		self.Menu_Lateral.Insertar()
+		
+		#Inserccion de la Interface donde se desarrolla el juego
+		self.Pantalla_Principal.blit(self.Fondo,(75,100))
+		
+		#Inserccion Menu Superior a la Pantalla
+		#Esta Inserccion incluye la de los submenus si se dio click a un Boton
+		self.Menu_Superior.Insertar()
+		
+		#-------------------------------------------------- if (p_Boton !=None):
+			# #Se Imprime el SubMenu solo si se dio Click en un Boton que lo posea
+			#------------------ #En este Juego solo los Menu_Superior los tienen
+			# self.Pantalla_Principal.blit(p_Boton.ObtenerSubMenu(),(p_Boton.pos_x,100))
+												
 	def MayaCiclo(self):
 		entro=False
-		click=False
+		Reimprime=False
+		Boton_Jue=None
+		Interface_Jue=None
+		
 		#Capturador de Eventos
 		while True:
 			for evento in pygame.event.get():
+				#El Evento Quit ocurre cuando se ha presionado el boton de cerrar
 				if evento.type==QUIT:
 					exit()
-						
+					
+				#Este Tipo de Evento indica que se ha Presionado algun Boton del Raton
+				#Sobre la Pantalla Display		
 				if evento.type==MOUSEBUTTONDOWN:
-					interface=self.BusquedaGeneral(evento)
+					interface=self.BusquedaGeneral(evento,p_Interface_Anterior=Interface_Jue)
+					#Si no se dio click en ninguna interface el boton lo devuelve None
 					if (interface!=None):
+						Interface_Jue=interface
 						Boton=interface.BusquedaMenu(evento)
 					else:
-						Boton=None	
+						Boton=None
+																		
 					if (Boton != None):
-						if (Boton.Rango=='Menu'):
-							self.ReImprimir(Boton) 
-							click=True
-							print 'Se ha Dado click a un Menu'
+						interface.EvtClick()
+						self.ReImprimir()
 					else:
-						self.ReImprimir(None)
-						click=False	
-							
+						#El if siguiente indica que cuando se cambie de interface i
+						if(Interface_Jue != None and interface != Interface_Jue):
+							interface.Raton_Click=False		
+						
+					
+				#Este Tipo de Evento indica que se ha movido el Raton
+				#Sobre la Pantalla Display							
 				if evento.type==MOUSEMOTION:
-					interface=self.BusquedaGeneral(evento)
+					interface=self.BusquedaGeneral(evento,p_Interface_Anterior=Interface_Jue)
+							
+					#Si no se movio sobre algun boton de alguna interfaces sino el boton lo devuelve None
 					if (interface!=None):
 						Boton=interface.BusquedaMenu(evento)
 					else:
@@ -145,14 +171,14 @@ class MayCPrincipal():
 							
 					if (entro==False and Boton != None):
 						entro=True
-						interface.AgregarMensaje(Boton,evento.pos)
-						#Reimprime la Pantalla Principal			
-						self.ReImprimir(None)	
+						interface.EvtEntraRaton(evento)
+						Boton_Jue=Boton 		
 					elif (entro==True and Boton==None):
 						entro=False
-						interface.QuitarMensaje()
-						#Reimprime la Pantalla Principal			
-						self.ReImprimir(None)
+						if (interface !=None):
+							interface.EvtSaleRaton()
+					#Reimprime la Pantalla Principal			
+					self.ReImprimir()
 			
 			#Actualiza la Pantalla						
 			pygame.display.flip()

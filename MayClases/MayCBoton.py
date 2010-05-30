@@ -24,7 +24,7 @@ import pygame
 import os.path
 
 class MayCBoton(object):
-	def __init__(self,p_ID,p_Imagen_Nombre,p_Directorio_Imagen,p_Coordenadas,p_Tamano,p_Rango):
+	def __init__(self,p_Interface_Padre,p_ID,p_Imagen_Nombre,p_Directorio_Imagen,p_Coordenadas,p_Tamano,p_Tipo):
 		#Inicializo SubMódulos de Pygamep_Mensaje
 		pygame.init()
 		#Propiedades
@@ -36,14 +36,16 @@ class MayCBoton(object):
 		self.imagen=pygame.image.load(os.path.join(p_Directorio_Imagen,p_Imagen_Nombre))
 		self.imagen=pygame.transform.scale(self.imagen,(self.Ancho,self.Alto))
 		self.Mensaje_Ayuda=''
-		self.Rango=p_Rango
+		self.Tipo=p_Tipo
 		self.SubMenu=None
+		#Menu al Que Pertenece le Boton
+		self.Interface_Padre=p_Interface_Padre
 				
-	def Agregar(self,p_Superficie):
-		p_Superficie.blit(self.imagen,(self.pos_x,self.pos_y))
+	def Insertar(self):
+		self.Interface_Padre.blit(self.imagen,(self.pos_x,self.pos_y))
 				
-	def AgregarMensaje(self,p_Superficie,p_Posicion):
-		p_Superficie.blit(self.Mensaje_Ayuda,p_Posicion)
+	def AgregarMensaje(self,p_Posicion):
+		self.Interface_Padre.blit(self.Mensaje_Ayuda,p_Posicion)
 	
 	def MensajeAyuda(self,Mensaje):
 		Fuente_Mensaje = pygame.font.SysFont("arial", 16)
@@ -59,12 +61,14 @@ class MayCBoton(object):
 			return True	
 			
 	def CreacionSubMenu(self,p_No_Botones,p_SubBarraMenu,p_Imagenes,p_Mensajes_Ayuda):
+		#SubMenu que se Envia por Parametro, este pertenece a la Clase
+		#MayCBarraMenu
 		self.SubMenu=p_SubBarraMenu
-		self.SubMenu.CreacionMenus(p_No_Botones,p_Imagenes,p_Mensajes_Ayuda,(0,0),(40,50),'SubMenu')
+		self.SubMenu.CreacionMenus(p_No_Botones,p_Imagenes,p_Mensajes_Ayuda,(0,0),(40,50),p_Tipo='BSubMenu')
 	
 	def ObtenerSubMenu(self):
 		return self.SubMenu.Obtener()	
 		
 	def Click(self,p_Interface):		
-		if (self.Rango=='Menu'):
+		if (self.Tipo=='BMenuSuperior'):
 			p_Interface.blit(self.SubMenu.Obtener(),(0,100))			

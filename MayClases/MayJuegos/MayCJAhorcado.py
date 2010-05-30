@@ -3,7 +3,7 @@ from albow.fields import TextField, FloatField
 import random,time,pygame
 from pygame.locals import *
 import codecs 
-import 
+ 
 pygame.init()
 
 #--------------------------------------------------------------------------------
@@ -100,7 +100,7 @@ class CamposTexto():
 			imagen=pygame.image.load(str(a) + '.jpg')
 			imagen= pygame.transform.scale(imagen, (200, 200))            
 			Lista.append(imagen)
-		#Se hace manual porque la última imagen es .gif    
+		#Se hace manual porque la ï¿½ltima imagen es .gif    
 		#~ imagen=pygame.image.load('6.gif')
 		#~ imagen= pygame.transform.scale(imagen, (200, 200))            
 		#~ Lista.append(imagen)
