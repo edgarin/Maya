@@ -24,7 +24,7 @@ import pygame
 import os.path
 
 class MayCBoton(object):
-	def __init__(self,p_Interface_Padre,p_ID,p_Imagen_Nombre,p_Directorio_Imagen,p_Coordenadas,p_Tamano,p_Tipo):
+	def __init__(self,p_Interface_Padre,p_ID,p_Imagen_Nombre,p_Directorio_Imagen,p_Coordenadas,p_Tamano,p_Tipo,p_Habilitado=True):
 		#Inicializo SubMódulos de Pygamep_Mensaje
 		pygame.init()
 		#Propiedades
@@ -40,6 +40,7 @@ class MayCBoton(object):
 		self.SubMenu=None
 		#Menu al Que Pertenece le Boton
 		self.Interface_Padre=p_Interface_Padre
+		self.Habilitado=p_Habilitado
 				
 	def Insertar(self):
 		self.Interface_Padre.blit(self.imagen,(self.pos_x,self.pos_y))
@@ -47,8 +48,13 @@ class MayCBoton(object):
 	def AgregarMensaje(self,p_Posicion):
 		self.Interface_Padre.blit(self.Mensaje_Ayuda,p_Posicion)
 	
+	def Habilitar(self,p_Si_No):
+		self.Habilitado=p_Si_No
+		
 	def MensajeAyuda(self,Mensaje):
-		Fuente_Mensaje = pygame.font.SysFont("arial", 16)
+		Fuente_Mensaje = pygame.font.SysFont("arial", 12)
+		#(0,0,0)=>Color de Letra (150,155,175)=>Color Fondo 
+		#Font.render() devuelve una surface
 		self.Mensaje_Ayuda = Fuente_Mensaje.render(Mensaje, True, (0, 0, 0), (150, 155, 175))	
 			
 	def ObtenerMensaje(self):

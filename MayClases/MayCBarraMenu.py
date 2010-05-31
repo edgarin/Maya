@@ -25,7 +25,7 @@ import os.path
 from MayCBoton import MayCBoton
 
 class MayCBarraMenu(object):
-	def __init__(self,p_Interface_Padre,p_Posicion,p_Tamano,p_Directorio_Recursos_Iconos,p_Tipo):
+	def __init__(self,p_Interface_Padre,p_Posicion,p_Tamano,p_Directorio_Recursos_Iconos,p_Tipo,p_Habilitado=True):
 		#Inicializo SubMódulos de Pygamep_Mensaje
 		pygame.init()
 		#Interface en la cual la BarraMenu sera Insertada
@@ -47,6 +47,7 @@ class MayCBarraMenu(object):
 		self.Raton_Dentro=False
 		self.Raton_Fuera=True
 		self.Raton_Click=False
+		self.Habilitado=p_Habilitado
 		
 	def Obtener(self):
 		return self.Interface
@@ -55,13 +56,17 @@ class MayCBarraMenu(object):
 		#Agrego Mensaje tooltip
 		self.Boton_NJuego.AgregarMensaje(p_posicion_mensaje)		
 	
+	def Habilitar(self,p_Si_No):
+		self.Habilitado=p_Si_No
+		
 	def QuitarMensaje(self):
-		#Indica que se Movio del Boton en q tal vez se dio click y se pone como false
-		#--------------------------------------------- self.Menu_Presionado=None
+		self.ReIniciarGUI()
+	
+	def ReIniciarGUI(self):
 		self.Interface.fill((255,255,255))
 		for contador in range(len(self.Menus)):
 			self.Menus[contador].Insertar()
-		
+			
 	def BusquedaMenu(self,evento):
 		for contador in range(len(self.Menus)):
 			if (self.Menus[contador].Busqueda(evento.pos)):
@@ -107,6 +112,9 @@ class MayCBarraMenu(object):
 		#Se Imprime el SubMenu solo si se dio Click en un Boton que lo posea
 		#En este Juego solo los Menu_Superior los tienen
 		self.Interface_Padre.blit(self.Boton_NJuego.ObtenerSubMenu(),(self.Boton_NJuego.pos_x,100))
+	
+	def ReImprimir(self):
+		self.Insertar()	
 		
 	def EvtEntraRaton(self,p_Evento):
 		self.Raton_Dentro=True
@@ -119,10 +127,53 @@ class MayCBarraMenu(object):
 		self.QuitarMensaje()
 		
 	def EvtClick(self):
-		#Cuando el Boton es presionado dos veces Raton_Click sera falso y ya no se imprimira el submenu del Boton presionado
-		if(self.Boton_NJuego==self.Boton_Presionado):
-			self.Raton_Click=False
-			self.Boton_Presionado=None
-		else:	
-			self.Raton_Click=True
-			self.Boton_Presionado=self.Boton_NJuego
+		#Si el Boton en Juego que es el que se Origina cuando el Mouse entra en un Boton siendo este en Juego pertenece
+		#a un Menu Superior este actuara de la Manera Siguiente
+		if(self.Boton_NJuego.Tipo=='BMenuSuperior'):
+			#Cuando el Boton es presionado dos veces Raton_Click sera falso y ya no se imprimira el submenu del Boton presionado
+			if(self.Boton_NJuego==self.Boton_Presionado):
+				self.Raton_Click=False
+				self.Boton_Presionado=None
+			else:	
+				self.Raton_Click=True
+				self.Boton_Presionado=self.Boton_NJuego
+				print 'Se dio click en un '+ self.Tipo
+		else:
+			pass
+				
+	def MovimientoDRaton(self,p_Evento):
+		if(self.VerificaEvento(p_Evento)==False):
+			return
+		Boton=self.BusquedaMenu(p_Evento)
+		
+		if(self.Raton_Dentro==False and Boton != None):
+			self.EvtEntraRaton(p_Evento)
+		elif(self.Raton_Fuera==False and Boton ==None):
+			self.EvtSaleRaton()	
+		
+		#Reimprime la Pantalla Principal			
+		#self.ReImprimir()	
+	
+	def PresionDRaton(self,p_Evento):
+		if(self.VerificaEvento(p_Evento)==False):
+			return
+		
+		Boton=self.BusquedaMenu(p_Evento)
+		
+		if( Boton != None):
+			self.EvtClick()
+	
+		#Reimprime la Pantalla Principal			
+		#self.ReImprimir()
+					
+	#Busca si se concentra un Posible evento en la Interface
+	def VerificaEvento(self,p_evento):
+		pos_x2,pos_y2=p_evento.pos
+		
+		pos_x,pos_y=self.ObtenerPosicion()
+		Ancho,Alto=self.ObtenerTamano()
+			
+		if ((pos_x2>=pos_x and pos_x2<=(pos_x+Ancho)) and (pos_y2>=pos_y and pos_y2<=(pos_y+Alto))):
+			return True
+		else:
+			return False		

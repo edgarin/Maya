@@ -34,7 +34,7 @@ class MayCPrincipal():
 		self.Mensajes_Barra_Superior=['Mensaje Ayuda 1','Mensaje Ayuda 2','Mensaje Ayuda 3']
 		
 		self.Imagenes_Barra_Lateral=['MayIBuy-shop.png','MayIComment-help.png','MayIPrint.png']
-		self.Mensajes_Barra_Lateral=['Mensaje Lateral Ayuda 1','Mensaje Lateral Ayuda 2','Mensaje Lateral Ayuda 3']
+		self.Mensajes_Barra_Lateral=['Mensaje Late 1','Mensaje Late 2','Mensaje Late 3']
 		
 		self.Imagenes_SubMenus=[['MayINavegar.png','MayIOff.png'],['MayITools.png','MayIStop.png'],['MayIFrwd.png','MayIFavs-caution.png']]
 		self.Mensajes_SubMenus=[['Submensaje Ayuda 1','Submensaje Ayuda 2'],['Submensaje Ayuda 1','Submensaje Ayuda 2'],['Submensaje Ayuda 1','Submensaje Ayuda 2']]
@@ -43,11 +43,11 @@ class MayCPrincipal():
 		self.Tamano_Surface1=(640,100)
 		self.Posicion_Surface1=(0,0)
 		#Menu Lateral
-		self.Tamano_Surface2=(100,465)
+		self.Tamano_Surface2=(110,465)
 		self.Posicion_Surface2=(0,100)
 		#Desarrollo del Juego
 		self.Tamano_Surface3=(530,400)
-		self.Posicion_Surface3=(100,100)
+		self.Posicion_Surface3=(110,100)
 		
 		self.Iniciar()
 		self.MayaCiclo()
@@ -64,13 +64,13 @@ class MayCPrincipal():
 			
 			#Creacion Menu Superior
 			self.Menu_Superior=MayCBarraMenu(self.Pantalla_Principal,self.Posicion_Surface1,self.Tamano_Surface1,self.path_recursos_Ico,'Horizontal')
-			self.Menu_Superior.CreacionMenus(3,self.Imagenes_Barra_Superior,self.Mensajes_Barra_Superior,(10,5),(70,100),p_Tipo='BMenuSuperior')
+			self.Menu_Superior.CreacionMenus(3,self.Imagenes_Barra_Superior,self.Mensajes_Barra_Superior,(10,5),(70,90),p_Tipo='BMenuSuperior')
 			self.Subme(len(self.Menu_Superior.Menus))
 			self.Menu_Superior.Insertar()
 			
 			#Creacion Menu Lateral
 			self.Menu_Lateral=MayCBarraMenu(self.Pantalla_Principal,self.Posicion_Surface2,self.Tamano_Surface2,self.path_recursos_Ico,'Vertical')
-			self.Menu_Lateral.CreacionMenus(3,self.Imagenes_Barra_Lateral,self.Mensajes_Barra_Lateral,(10,5),(70,100),p_Tipo='BMenuLateral')
+			self.Menu_Lateral.CreacionMenus(3,self.Imagenes_Barra_Lateral,self.Mensajes_Barra_Lateral,(10,10),(80,90),p_Tipo='BMenuLateral')
 			self.Menu_Lateral.Insertar()
 			
 			#Creacion de la pantalla donde se desarrolla el juego
@@ -119,11 +119,6 @@ class MayCPrincipal():
 		#Inserccion Menu Superior a la Pantalla
 		#Esta Inserccion incluye la de los submenus si se dio click a un Boton
 		self.Menu_Superior.Insertar()
-		
-		#-------------------------------------------------- if (p_Boton !=None):
-			# #Se Imprime el SubMenu solo si se dio Click en un Boton que lo posea
-			#------------------ #En este Juego solo los Menu_Superior los tienen
-			# self.Pantalla_Principal.blit(p_Boton.ObtenerSubMenu(),(p_Boton.pos_x,100))
 												
 	def MayaCiclo(self):
 		entro=False
@@ -141,44 +136,18 @@ class MayCPrincipal():
 				#Este Tipo de Evento indica que se ha Presionado algun Boton del Raton
 				#Sobre la Pantalla Display		
 				if evento.type==MOUSEBUTTONDOWN:
-					interface=self.BusquedaGeneral(evento,p_Interface_Anterior=Interface_Jue)
-					#Si no se dio click en ninguna interface el boton lo devuelve None
-					if (interface!=None):
-						Interface_Jue=interface
-						Boton=interface.BusquedaMenu(evento)
-					else:
-						Boton=None
-																		
-					if (Boton != None):
-						interface.EvtClick()
-						self.ReImprimir()
-					else:
-						#El if siguiente indica que cuando se cambie de interface i
-						if(Interface_Jue != None and interface != Interface_Jue):
-							interface.Raton_Click=False		
-						
-					
+					#El Evento PresionDRaton Verifica si el evento MOUSEBUTTONDOWN afecta a Menu
+					#Dependiendo de eso se realiza una Accion 
+					self.Menu_Superior.PresionDRaton(evento)
+					self.Menu_Lateral.PresionDRaton(evento)
+					self.ReImprimir()
 				#Este Tipo de Evento indica que se ha movido el Raton
 				#Sobre la Pantalla Display							
 				if evento.type==MOUSEMOTION:
-					interface=self.BusquedaGeneral(evento,p_Interface_Anterior=Interface_Jue)
-							
-					#Si no se movio sobre algun boton de alguna interfaces sino el boton lo devuelve None
-					if (interface!=None):
-						Boton=interface.BusquedaMenu(evento)
-					else:
-						Boton=None
-							
-					if (entro==False and Boton != None):
-						entro=True
-						interface.EvtEntraRaton(evento)
-						Boton_Jue=Boton 		
-					elif (entro==True and Boton==None):
-						entro=False
-						if (interface !=None):
-							interface.EvtSaleRaton()
-					#Reimprime la Pantalla Principal			
+					#El Evento MovimientoDRaton Verifica si el evento MOUSEMOTION afecta a Menu
+					#Dependiendo de eso se realiza una Accion 
+					self.Menu_Superior.MovimientoDRaton(evento)
+					self.Menu_Lateral.MovimientoDRaton(evento)
 					self.ReImprimir()
-			
 			#Actualiza la Pantalla						
 			pygame.display.flip()
