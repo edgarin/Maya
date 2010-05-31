@@ -86,22 +86,6 @@ class MayCPrincipal():
 			SubBarraMenu=MayCBarraMenu(self.Pantalla_Principal,(0,0),(150,60),self.path_recursos_Ico,'Horizontal')
 			self.Menu_Superior.Menus[contador].CreacionSubMenu(self.Menus_xSubmenus[contador],SubBarraMenu,self.Imagenes_SubMenus[contador],self.Mensajes_SubMenus[contador])		
 			
-	#Se Retorna la Interface en Donde el Mouse esta ocasionando Eventos
-	def BusquedaGeneral(self,p_evento,p_Interface_Anterior=None):
-		Interfaces=[self.Menu_Superior,self.Menu_Lateral]
-		
-		if(p_Interface_Anterior!=None):
-			Interfaces.append(p_Interface_Anterior.Boton_NJuego.SubMenu)
-			
-		pos_x2,pos_y2=p_evento.pos
-		
-		for interface in Interfaces:
-			pos_x,pos_y=interface.ObtenerPosicion()
-			Ancho,Alto=interface.ObtenerTamano()
-			
-			if ((pos_x2>=pos_x and pos_x2<=(pos_x+Ancho)) and (pos_y2>=pos_y and pos_y2<=(pos_y+Alto))):
-				return interface
-	
 	def ReImprimir(self,p_Reimprime=None):
 		#Si se dio Click en un Menu con Submenu ya no vuelve a Reimprimir hasta q se de click 
 		#afuera del Menu seleccionado
@@ -140,6 +124,7 @@ class MayCPrincipal():
 					#Dependiendo de eso se realiza una Accion 
 					self.Menu_Superior.PresionDRaton(evento)
 					self.Menu_Lateral.PresionDRaton(evento)
+					#Reimprime la Pantalla Principal
 					self.ReImprimir()
 				#Este Tipo de Evento indica que se ha movido el Raton
 				#Sobre la Pantalla Display							
@@ -148,6 +133,7 @@ class MayCPrincipal():
 					#Dependiendo de eso se realiza una Accion 
 					self.Menu_Superior.MovimientoDRaton(evento)
 					self.Menu_Lateral.MovimientoDRaton(evento)
+					#Reimprime la Pantalla Principal
 					self.ReImprimir()
 			#Actualiza la Pantalla						
 			pygame.display.flip()
