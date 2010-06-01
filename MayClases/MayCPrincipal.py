@@ -103,6 +103,9 @@ class MayCPrincipal():
 		#Inserccion Menu Superior a la Pantalla
 		#Esta Inserccion incluye la de los submenus si se dio click a un Boton
 		self.Menu_Superior.Insertar()
+		
+		self.Menu_Superior.MensajesAyuda()
+		self.Menu_Lateral.MensajesAyuda()
 												
 	def MayaCiclo(self):
 		entro=False

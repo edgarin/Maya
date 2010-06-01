@@ -50,9 +50,10 @@ class MayCBarraMenu(object):
 	def Obtener(self):
 		return self.Interface
 		
-	def AgregarMensaje(self,p_posicion_mensaje):
-		#Agrego Mensaje tooltip
-		self.Boton_NJuego.AgregarMensaje(p_posicion_mensaje)		
+	def AgregarMensaje(self,p_posicion_mensaje=None):
+		if (p_posicion_mensaje==None):
+			#Agrego Mensaje tooltip
+			self.Boton_NJuego.AgregarMensaje(p_Interface=self.Interface_Padre)		
 	
 	def Habilitar(self,p_Si_No):
 		self.Habilitado=p_Si_No
@@ -115,16 +116,20 @@ class MayCBarraMenu(object):
 		#En este Juego solo los Menu_Superior los tienen
 		self.Interface_Padre.blit(self.Boton_NJuego.ObtenerSubMenu(),(self.Boton_NJuego.pos_x,100))
 		
-	def EvtEntraRaton(self,p_Evento):
+	def EvtEntraRaton(self):
 		self.Raton_Dentro=True
 		self.Raton_Fuera=False
-		self.AgregarMensaje(p_Evento.pos)
-		
+				
 	def EvtSaleRaton(self):
 		self.Raton_Fuera=True
 		self.Raton_Dentro=False
-		self.QuitarMensaje()
-		
+	
+	def MensajesAyuda(self):
+		if(self.Raton_Dentro==True):
+			self.AgregarMensaje()
+		elif(self.Raton_Fuera==True):
+			self.QuitarMensaje()
+				
 	def EvtClick(self):
 		#Si el Boton en Juego que es el que se Origina cuando el Mouse entra en un Boton siendo este en Juego pertenece
 		#a un Menu Superior este actuara de la Manera Siguiente
@@ -148,7 +153,8 @@ class MayCBarraMenu(object):
 		Boton=self.BusquedaMenu(p_Evento)
 		
 		if(self.Raton_Dentro==False and Boton != None):
-			self.EvtEntraRaton(p_Evento)
+			self.EvtEntraRaton()
+			self.Boton_NJuego.Pos_Mensaje=p_Evento.pos
 		elif(self.Raton_Fuera==False and Boton ==None):
 			self.EvtSaleRaton()	
 					

@@ -37,6 +37,7 @@ class MayCBoton(object):
 		self.imagen=pygame.transform.scale(self.imagen,(self.Ancho,self.Alto))
 		self.Mensaje_Ayuda=''
 		self.Tipo=p_Tipo
+		self.Pos_Mensaje=None
 		self.SubMenu=None
 		#Menu al Que Pertenece le Boton
 		self.Interface_Padre=p_Interface_Padre
@@ -45,9 +46,13 @@ class MayCBoton(object):
 	def Insertar(self):
 		self.Interface_Padre.blit(self.imagen,(self.pos_x,self.pos_y))
 				
-	def AgregarMensaje(self,p_Posicion):
-		self.Interface_Padre.blit(self.Mensaje_Ayuda,p_Posicion)
-	
+	def AgregarMensaje(self,p_Interface=None):
+		print 'Ondas'
+		if (p_Interface==None):
+			self.Interface_Padre.blit(self.Mensaje_Ayuda,self.Pos_Mensaje)
+		else:
+			p_Interface.blit(self.Mensaje_Ayuda,self.Pos_Mensaje)
+				
 	def Habilitar(self,p_Si_No):
 		self.Habilitado=p_Si_No
 		
@@ -77,4 +82,7 @@ class MayCBoton(object):
 		
 	def Click(self,p_Interface):		
 		if (self.Tipo=='BMenuSuperior'):
-			p_Interface.blit(self.SubMenu.Obtener(),(0,100))			
+			p_Interface.blit(self.SubMenu.Obtener(),(0,100))
+	
+	def PosMensaje(self,p_Pos_Mensaje):
+		self.Pos_Mensaje=p_Pos_Mensaje					
