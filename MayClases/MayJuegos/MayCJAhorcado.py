@@ -4,16 +4,18 @@ import gui
 from gui import *
 pygame.init()
 import defaultStyle
+sys.path.append('../../MayClases')
+from MayCLabel import MayCLabel
 
 run = True
-screen = pygame.display.set_mode((640,480))
+Pantalla_Principal = pygame.display.set_mode((640,480))
 defaultStyle.init(gui)
 desktop = gui.Desktop()
   
 class MayCJAhorcado():   
             
         def __init__(self):
-            screen.fill((0,0,0))
+            self.Pantalla_Principal = Pantalla_Principal
             self.buttonsalir = Button(position = (480,450),parent = desktop, text = "Salir")
             self.buttonsalir.onClick = self.buttonsalir_onClick
             self.Imagen = ""
@@ -33,28 +35,29 @@ class MayCJAhorcado():
             self.LCorrectas=""
             #Letras Incorrectas
             self.LIncorrectas=""     
-            self.GUI()         
+            self.GUI()
+                     
         
         def GUI(self):
-            lblIngresadas = Label(position=(50,25),text="Letras Ingresadas: ",parent=desktop)
-            self.lblIngresadas = lblIngresadas
-            #self.add(lblIngresadas)
+            self.lblIngresadas = MayCLabel(self.Pantalla_Principal, "Ingresadas: ","lblIngresadas",(25,25),"blanco")
+            self.lblIngresadas.Insertar()
         
-            lblIncorrectas = Label(position=(50,50),text="Letras Incorrectas: ",parent=desktop)
-            self.lblIncorrectas = lblIncorrectas
-                    
-            lblEstado = Label(position=(260,25),size=(200,0),text="Estado Juego: ",parent=desktop)
-            self.lblEstado = lblEstado
+            self.lblIncorrectas = MayCLabel(self.Pantalla_Principal, "Letras Incorrectas: ","lblIncorrectas",(25,50),"blanco")
+            self.lblIncorrectas.Insertar()
+
+            self.lblEstado = MayCLabel(self.Pantalla_Principal, "Estado: ","lblEstado",(320,25),"blanco")
+            self.lblEstado.Insertar()
         
             self.ImprimirImagen(self.ListaImagenes[0])
             
-            lblPregunta = Label(position=(250,95),size=(200,0),text=self.PreSecreta,parent=desktop)
-            self.lblPregunta = lblPregunta
+            #lblPregunta = Label(position=(250,95),size=(200,0),text=self.PreSecreta,parent=desktop)
+            self.lblPregunta = MayCLabel(self.Pantalla_Principal,self.PreSecreta,"lblPregunta",(220,85),"rojo")
+            self.lblPregunta.Insertar()
         
-            lblCorrectas = Label(position=(250,325),size=(200,0),text=self.ReSecretaImpr(),parent=desktop)            
-            self.lblCorrectas = lblCorrectas
+            self.lblCorrectas = MayCLabel(self.Pantalla_Principal,self.ReSecretaImpr(),"lblCorrectas",(250,325),"blanco")        
+            self.lblCorrectas.Insertar()
         
-            self.txtLetra = TextBox(position=(200,360),size=(200,0),text="Letra: ",parent=desktop)            
+            self.txtLetra = TextBox(position=(200,360),size=(200,0),text="",parent=desktop)            
                 
             self.btn = Button(position = (240,400),parent = desktop, text = "Ok")
             self.btn.onClick = self.evt_click          
@@ -112,7 +115,7 @@ class MayCJAhorcado():
             
                 if LIngresada in self.ReSecreta:
                     self.LCorrectas += LIngresada
-                    self.lblCorrectas.text=self.ReSecretaImpr()
+                    self.lblCorrectas.Text(self.ReSecretaImpr())
 
                     TodasEncontradasL=True
                 
@@ -121,13 +124,13 @@ class MayCJAhorcado():
                             TodasEncontradasL = False
                             break
                     if TodasEncontradasL:
-                        self.lblEstado.text+='Ha Ganado! La Respuesta Secreta era "' + self.ReSecreta + '"! Felicitaciones!'
+                        self.lblEstado.Append('Ha Ganado! La Respuesta Secreta era "' + self.ReSecreta + '"! Felicitaciones!')
                 else:
                     self.LIncorrectas += LIngresada
-                    self.lblIncorrectas.text="Letras Incorrectas: " + self.LIncorrectas
+                    self.lblIncorrectas.Text("Letras Incorrectas: " + self.LIncorrectas)
                     self.ImprimirImagen(self.ListaImagenes[len(self.LIncorrectas)])
             
-                self.lblIngresadas.text="Letras Ingresadas: "+self.LCorrectas+self.LIncorrectas
+                self.lblIngresadas.Text("Letras Ingresadas: "+self.LCorrectas+self.LIncorrectas)
     
         def LimpiarTxt(self):
             self.txtLetra.text=""
@@ -135,23 +138,23 @@ class MayCJAhorcado():
         def CompLetra(self):
             LetraIngre = self.txtLetra.text.lower()
             LeIngresadas=self.LCorrectas+self.LIncorrectas
-            self.lblEstado.text="Estado:"
+            #self.lblEstado.text("Estado")
         
             if LetraIngre.strip() == '':
-                self.lblEstado.text+=' Debe Ingresar una Letra'
+                self.lblEstado.NuevoEstado(' Debe Ingresar una Letra')
             elif len(LetraIngre) > 1:
-                self.lblEstado.text+=' Ingrese Solamente una Letra'
+                self.lblEstado.NuevoEstado(' Ingrese Solamente una Letra')
             elif LetraIngre in LeIngresadas:
-                self.lblEstado.text+=' Usted ya Ingresado esta letra'
+                self.lblEstado.NuevoEstado(' Usted ya Ingresado esta letra')
             elif LetraIngre not in 'abcdefghijklmnopqrstuvwxyz':
-                self.lblEstado.text+=' Ingrese Letras Solamente'
+                self.lblEstado.NuevoEstado(' Ingrese Letras Solamente')
             else:
                 return True 
 
         def ComprobacionPierde(self):
             # Check if player has guessed too many times and lost
             if len(self.LIncorrectas) == 6:
-                self.lblEstado.text+='Pisaste! XD'
+                self.lblEstado.Append('Pisaste! XD')
                 self.ImprimirImagen(self.ListaImagenes[6])
                 time.sleep(1)
                 self.ImprimirImagen(self.ListaImagenes[7])
@@ -169,8 +172,7 @@ class MayCJAhorcado():
         def ImprimirImagen(self, imagen):
             a = imagen
 #            imagen = pygame.transform.scale(imagen, (200,200))
-            screen.blit(a,(200,120))
-            
+            self.Pantalla_Principal.blit(a,(200,120))       
             
 
 MayCJAhorcado()
