@@ -47,7 +47,6 @@ class MayCBoton(object):
 		self.Interface_Padre.blit(self.imagen,(self.pos_x,self.pos_y))
 				
 	def AgregarMensaje(self,p_Interface=None):
-		print 'Ondas'
 		if (p_Interface==None):
 			self.Interface_Padre.blit(self.Mensaje_Ayuda,self.Pos_Mensaje)
 		else:

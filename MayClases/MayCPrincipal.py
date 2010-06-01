@@ -24,7 +24,12 @@ import pygame,time
 from pygame.locals import *
 from sys import exit
 from MayCBarraMenu import MayCBarraMenu
+from MayCDesarrolloJuegos import  MayCDesarrolloJuegos
 import os.path
+
+import MayJuegos.gui
+from MayJuegos.gui import *
+import MayJuegos.defaultStyle
 
 class MayCPrincipal():
 	def __init__(self,p_path_recursos):
@@ -55,12 +60,14 @@ class MayCPrincipal():
 	def Iniciar(self):
 		#Inicializo los Submódulos de Pygame
 		pygame.init()
+		
+		MayJuegos.defaultStyle.init(MayJuegos.gui)
+		self.desktop = MayJuegos.gui.Desktop()
+			
 		try:
 			pygame.display.set_icon(pygame.image.load(os.path.join(self.path_recursos_Ico, "MayI01.png")))
 			pygame.display.set_caption("Juegos Para el Desarrollo Maya")
 			self.Pantalla_Principal = pygame.display.set_mode(self.Tamano_Pantalla, 0, 32)
-			self.Fondo=pygame.image.load(os.path.join(self.path_recursos_Ico,'MayIGJaguar.png')).convert_alpha()
-			self.Fondo=pygame.transform.scale(self.Fondo,(565,400))
 			
 			#Creacion Menu Superior
 			self.Menu_Superior=MayCBarraMenu(self.Pantalla_Principal,self.Posicion_Surface1,self.Tamano_Surface1,self.path_recursos_Ico,'Horizontal')
@@ -74,7 +81,9 @@ class MayCPrincipal():
 			self.Menu_Lateral.Insertar()
 			
 			#Creacion de la pantalla donde se desarrolla el juego
-			self.Pantalla_Principal.blit(self.Fondo,(75,100))
+			self.Interface_Juego=MayCDesarrolloJuegos(self.Pantalla_Principal,self.Posicion_Surface3,self.Tamano_Surface3,self.path_recursos_Ico,'MayIGJaguar.png',self.desktop,1)
+			self.Interface_Juego.Insertar()
+			#self.Pantalla_Principal.blit(self.Fondo,(75,100))
 			
 		except pygame.error, e:
 			print "Error al crear la Pantalla"
@@ -90,15 +99,14 @@ class MayCPrincipal():
 		#Si se dio Click en un Menu con Submenu ya no vuelve a Reimprimir hasta q se de click 
 		#afuera del Menu seleccionado
 		if (p_Reimprime==True):
-			return
-		
-		self.Pantalla_Principal.fill((0,0,0))				
+			return				
 		
 		#Inserccion Menu Lateral a la Pantalla
 		self.Menu_Lateral.Insertar()
 		
 		#Inserccion de la Interface donde se desarrolla el juego
-		self.Pantalla_Principal.blit(self.Fondo,(75,100))
+		self.Interface_Juego.Insertar()
+		#self.Pantalla_Principal.blit(self.Fondo,(75,100))
 		
 		#Inserccion Menu Superior a la Pantalla
 		#Esta Inserccion incluye la de los submenus si se dio click a un Boton
@@ -138,5 +146,7 @@ class MayCPrincipal():
 					self.Menu_Lateral.MovimientoDRaton(evento)
 					#Reimprime la Pantalla Principal
 					self.ReImprimir()
+			self.desktop.update()
+			self.desktop.draw()
 			#Actualiza la Pantalla						
-			pygame.display.flip()
+			pygame.display.update()

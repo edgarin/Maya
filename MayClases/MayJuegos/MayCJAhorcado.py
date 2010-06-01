@@ -1,19 +1,21 @@
 # encoding: utf-8
 import pygame,random,time,codecs,sys
-import gui
-from gui import *
+#import gui
+#from gui import *
 pygame.init()
-import defaultStyle
+#import defaultStyle
 
-run = True
-screen = pygame.display.set_mode((640,480))
-defaultStyle.init(gui)
-desktop = gui.Desktop()
+#run = True
+#screen = pygame.display.set_mode((640,480))
+#defaultStyle.init(gui)
+#desktop = gui.Desktop()
   
 class MayCJAhorcado():   
             
-        def __init__(self):
-            screen.fill((0,0,0))
+        def __init__(self,p_Interface,p_Desktop):
+            self.screen=p_Interface
+            desktop = p_Desktop
+            self.screen.fill((0,0,0))
             self.buttonsalir = Button(position = (480,450),parent = desktop, text = "Salir")
             self.buttonsalir.onClick = self.buttonsalir_onClick
             self.Imagen = ""
@@ -169,16 +171,16 @@ class MayCJAhorcado():
         def ImprimirImagen(self, imagen):
             a = imagen
 #            imagen = pygame.transform.scale(imagen, (200,200))
-            screen.blit(a,(200,120))
+            self.screen.blit(a,(200,120))
             
             
-
-MayCJAhorcado()
-
-while run:
-    for e in gui.setEvents(pygame.event.get()):
-        if e.type == pygame.QUIT:
-            run = False
-    desktop.update()
-    desktop.draw()
-    pygame.display.update()
+#
+#MayCJAhorcado()
+#
+#while run:
+#    for e in gui.setEvents(pygame.event.get()):
+#        if e.type == pygame.QUIT:
+#            run = False
+#    desktop.update()
+#    desktop.draw()
+#    pygame.display.update()

@@ -22,16 +22,42 @@
 import pygame
 import os.path
 from MayCBoton import MayCBoton
+from MayJuegos.MayCJAhorcado import MayCJAhorcado
 
-class MayCDesarrolloJuegos(Object):
-	def __init__(self,p_Interface_Padre,p_Posicion,p_Tamano,p_Directorio_Recursos_Iconos,p_Juego,p_Habilitado=True):
+class MayCDesarrolloJuegos(object):
+	def __init__(self,p_Interface_Padre,p_Posicion,p_Tamano,p_Directorio_Recursos_Iconos,p_Imagen_Fondo,p_Juego,p_Desktop,p_Habilitado=True):
 		#Inicializo SubMódulos de Pygamep_Mensaje
 		pygame.init()
 		#Interface en la cual la BarraMenu sera Insertada
 		self.Interface_Padre=p_Interface_Padre
-		self.Tamano=p_Tamano
-		self.Posicion_Actual=p_Posicion
 		self.Interface=pygame.Surface(p_Tamano,0,32)
-		self.Tipo=p_Tipo
+		self.Desktop=p_Desktop
 		#Propiedades
-		self.Directorio_Recursos_Iconos=p_Directorio_Recursos_Iconos
+		self.Tamano=p_Tamano
+		self.Posicion_Actual=p_Posicion	
+		self.Habilitado=p_Habilitado
+		self.Directorio_Imagenes=p_Directorio_Recursos_Iconos
+		self.Imagen_Fondo=None
+		self.Fondo(p_Imagen_Fondo,self.Directorio_Imagenes)
+		#Integrar Juego Selccionado
+		self.QueJuego(p_Juego)
+	
+	def Fondo(self,p_Imagen_Nombre,p_Directorio_Imagen,p_Tamano=None):
+		if(p_Tamano==None):
+			self.Imagen_Fondo=pygame.image.load(os.path.join(p_Directorio_Imagen,p_Imagen_Nombre))
+			self.Imagen_Fondo=pygame.transform.scale(self.Imagen_Fondo,self.Tamano)
+		
+	def InsertarFondo(self):
+		self.Interface.blit(self.Imagen_Fondo,(0,0))
+	
+	def ObtenerFondo(self):
+		return self.Imagen_Fondo
+					
+	def Insertar(self):
+		self.InsertarFondo()
+		self.Interface_Padre.blit(self.Interface,self.Posicion_Actual)					
+		 
+	def QueJuego(self,p_Juego):
+		if (p_Juego==1):
+			self.Ahorcado=MayCJAhorcado(self.Interface,self.Desktop)
+			pass
