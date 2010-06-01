@@ -1,8 +1,0 @@
-Version .9
-
-Mark Gerads added:
-	Window shade button
-	Window.close()
-	Window onClose, onMove, onMoveStop callbacks
-	Shaded style colors
-	Updated test.py
