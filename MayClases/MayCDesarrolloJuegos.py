@@ -18,7 +18,8 @@
 #       You should have received a copy of the GNU General Public License
 #       along with this program; if not, write to the Free Software
 #       Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston,
-#       MA 02110-1301, USA.
+#       MA 02110-1301, USA. 
+#
 import pygame
 import os.path
 from MayCBoton import MayCBoton
@@ -31,7 +32,7 @@ class MayCDesarrolloJuegos(object):
 		#Interface en la cual la BarraMenu sera Insertada
 		self.Interface_Padre=p_Interface_Padre
 		self.Interface=pygame.Surface(p_Tamano,0,32)
-		self.Desktop=p_Desktop
+		self.Desktop=p_Desktop 
 		#Propiedades
 		self.Tamano=p_Tamano
 		self.Posicion_Actual=p_Posicion	

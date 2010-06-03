@@ -9,7 +9,7 @@ pygame.init()
 #screen = pygame.display.set_mode((640,480))
 #defaultStyle.init(gui)
 #desktop = gui.Desktop()
-  
+  #
 class MayCJAhorcado():   
             
         def __init__(self,p_Interface,p_Desktop):

@@ -19,7 +19,7 @@
 #       along with this program; if not, write to the Free Software
 #       Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston,
 #       MA 02110-1301, USA.
-
+#
 import pygame
 import os.path
 
@@ -40,7 +40,7 @@ class MayCBoton(object):
 		self.Pos_Mensaje=None
 		self.SubMenu=None
 		#Menu al Que Pertenece le Boton
-		self.Interface_Padre=p_Interface_Padre
+		self.Interface_Padre=p_Interface_Padre 
 		self.Habilitado=p_Habilitado
 				
 	def Insertar(self):
