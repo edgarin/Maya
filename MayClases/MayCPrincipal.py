@@ -31,6 +31,7 @@ import MayJuegos.gui
 from MayJuegos.gui import *
 import MayJuegos.defaultStyle
 
+
 class MayCPrincipal():
 	def __init__(self,p_path_recursos):
 		self.path_recursos_Ico=p_path_recursos+"/MayIconos"
