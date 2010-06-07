@@ -26,10 +26,6 @@ from sys import exit
 from MayCBarraMenu import MayCBarraMenu
 from MayCDesarrolloJuegos import  MayCDesarrolloJuegos
 import os.path
-
-import MayJuegos.gui
-from MayJuegos.gui import *
-import MayJuegos.defaultStyle
 			
 class MayCPrincipal():
 	def __init__(self,p_path_recursos):
@@ -66,9 +62,6 @@ class MayCPrincipal():
 			pygame.display.set_caption("Juegos Para el Desarrollo Maya")
 			self.Pantalla_Principal = pygame.display.set_mode(self.Tamano_Pantalla, 0, 32)
 			
-			MayJuegos.defaultStyle.init(MayJuegos.gui)
-			self.desktop = MayJuegos.gui.Desktop()
-			
 			#Creacion Menu Superior
 			self.Menu_Superior=MayCBarraMenu(self.Pantalla_Principal,self.Posicion_Surface1,self.Tamano_Surface1,self.path_recursos_Ico,'Horizontal')
 			self.Menu_Superior.CreacionMenus(3,self.Imagenes_Barra_Superior,self.Mensajes_Barra_Superior,(10,5),(70,90),p_Tipo='BMenuSuperior')
@@ -81,7 +74,7 @@ class MayCPrincipal():
 			self.Menu_Lateral.Insertar()
 			
 			#Creacion de la pantalla donde se desarrolla el juego
-			self.Interface_Juego=MayCDesarrolloJuegos(self.Pantalla_Principal,self.Posicion_Surface3,self.Tamano_Surface3,self.path_recursos_Ico,'MayIGJaguar.png',self.desktop,1)
+			self.Interface_Juego=MayCDesarrolloJuegos(self.Pantalla_Principal,self.Posicion_Surface3,self.Tamano_Surface3,self.path_recursos_Ico,'MayIGJaguar.png',1)
 			#self.Interface_Juego.Insertar()
 			#self.Pantalla_Principal.blit(self.Fondo,(75,100))
 			
@@ -145,7 +138,7 @@ class MayCPrincipal():
 					self.Menu_Lateral.MovimientoDRaton(evento)
 					#Reimprime la Pantalla Principal
 					self.ReImprimir()
-			self.desktop.update()
-			self.desktop.draw()
+			self.Interface_Juego.Desktop.update()
+			self.Interface_Juego.Desktop.draw()
 			#Actualiza la Pantalla						
 			pygame.display.update()

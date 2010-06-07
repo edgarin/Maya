@@ -1,7 +1,7 @@
 # encoding: utf-8
 import pygame,random,time,codecs,sys
-#import gui
-#from gui import *
+import gui
+from gui import *
 pygame.init()
 #import defaultStyle
 
@@ -67,16 +67,16 @@ class MayCJAhorcado():
             imagen=None
             Lista=[]
             for a in range(9):
-                imagen=pygame.image.load(str(a) + '.jpg')
+                imagen=pygame.image.load("./MayClases/MayJuegos/"+ str(a) +'.jpg')
                 imagen= pygame.transform.scale(imagen, (200, 200))            
                 Lista.append(imagen)
             return Lista
 
         def Llenado(self,condicion):
             if (condicion=='R'):
-                url="Respuestas.txt"
+                url="./MayClases/MayJuegos/Respuestas.txt"
             else:
-                url="Preguntas.txt"
+                url="./MayClases/MayJuegos/Preguntas.txt"
             Lista=[]
             # Primero abrimos el archivo en modo lectura (r)
             archivo = codecs.open(url,encoding='utf-8',mode="r")

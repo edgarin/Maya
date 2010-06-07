@@ -25,14 +25,21 @@ import os.path
 from MayCBoton import MayCBoton
 from MayJuegos.MayCJAhorcado import MayCJAhorcado
 
+import MayJuegos.gui
+from MayJuegos.gui import *
+import MayJuegos.defaultStyle
+
 class MayCDesarrolloJuegos(object):
-	def __init__(self,p_Interface_Padre,p_Posicion,p_Tamano,p_Directorio_Recursos_Iconos,p_Imagen_Fondo,p_Juego,p_Desktop,p_Habilitado=True):
+	def __init__(self,p_Interface_Padre,p_Posicion,p_Tamano,p_Directorio_Recursos_Iconos,p_Imagen_Fondo,p_Juego,p_Habilitado=True):
 		#Inicializo SubMódulos de Pygamep_Mensaje
 		pygame.init()
 		#Interface en la cual la BarraMenu sera Insertada
 		self.Interface_Padre=p_Interface_Padre
 		self.Interface=pygame.Surface(p_Tamano,0,32)
-		self.Desktop=p_Desktop 
+		MayJuegos.defaultStyle.init(MayJuegos.gui)
+		
+		self.Desktop = MayJuegos.gui.Desktop()
+			 
 		#Propiedades
 		self.Tamano=p_Tamano
 		self.Posicion_Actual=p_Posicion	
