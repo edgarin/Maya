@@ -7,6 +7,7 @@ pygame.init()
 
 #run = True
 screen = pygame.display.set_mode((640,480))
+#print "hola"
 #defaultStyle.init(gui)
 #desktop = gui.Desktop()
   #
@@ -14,9 +15,9 @@ class MayCJAhorcado():
             
         def __init__(self,p_Interface,p_Desktop):
             self.screen=p_Interface
-            desktop = p_Desktop
+            self.desktop = p_Desktop
             self.screen.fill((0,0,0))
-            self.buttonsalir = Button(position = (480,450),parent = desktop, text = "Salir")
+            self.buttonsalir = Button(position = (480,450),parent = self.desktop, text = "Salir")
             self.buttonsalir.onClick = self.buttonsalir_onClick
             self.Imagen = ""
             #Respuestas
@@ -38,27 +39,27 @@ class MayCJAhorcado():
             self.GUI()         
         
         def GUI(self):
-            lblIngresadas = Label(position=(50,25),text="Letras Ingresadas: ",parent=desktop)
+            lblIngresadas = Label(position=(50,25),text="Letras Ingresadas: ",parent=self.desktop)
             self.lblIngresadas = lblIngresadas
             #self.add(lblIngresadas)
         
-            lblIncorrectas = Label(position=(50,50),text="Letras Incorrectas: ",parent=desktop)
+            lblIncorrectas = Label(position=(50,50),text="Letras Incorrectas: ",parent=self.desktop)
             self.lblIncorrectas = lblIncorrectas
                     
-            lblEstado = Label(position=(260,25),size=(200,0),text="Estado Juego: ",parent=desktop)
+            lblEstado = Label(position=(260,25),size=(200,0),text="Estado Juego: ",parent=self.desktop)
             self.lblEstado = lblEstado
         
             self.ImprimirImagen(self.ListaImagenes[0])
             
-            lblPregunta = Label(position=(250,95),size=(200,0),text=self.PreSecreta,parent=desktop)
+            lblPregunta = Label(position=(250,95),size=(200,0),text=self.PreSecreta,parent=self.desktop)
             self.lblPregunta = lblPregunta
         
-            lblCorrectas = Label(position=(250,325),size=(200,0),text=self.ReSecretaImpr(),parent=desktop)            
+            lblCorrectas = Label(position=(250,325),size=(200,0),text=self.ReSecretaImpr(),parent=self.desktop)            
             self.lblCorrectas = lblCorrectas
         
-            self.txtLetra = TextBox(position=(200,360),size=(200,0),text="Letra: ",parent=desktop)            
+            self.txtLetra = TextBox(position=(200,360),size=(200,0),text="Letra: ",parent=self.desktop)            
                 
-            self.btn = Button(position = (240,400),parent = desktop, text = "Ok")
+            self.btn = Button(position = (240,400),parent = self.desktop, text = "Ok")
             self.btn.onClick = self.evt_click          
             #btn = Button("OK", action = self.evt_click)
         
