@@ -67,16 +67,16 @@ class MayCJAhorcado():
             imagen=None
             Lista=[]
             for a in range(9):
-                imagen=pygame.image.load("./MayClases/MayJuegos/"+ str(a) +'.jpg')
+                imagen=pygame.image.load("./MayRecursos/MayJuegos/MayCJAhorcado/"+ str(a) +'.jpg')
                 imagen= pygame.transform.scale(imagen, (200, 200))            
                 Lista.append(imagen)
             return Lista
 
         def Llenado(self,condicion):
             if (condicion=='R'):
-                url="./MayClases/MayJuegos/Respuestas.txt"
+                url="./MayRecursos/MayJuegos/MayCJAhorcado/Respuestas.txt"
             else:
-                url="./MayClases/MayJuegos/Preguntas.txt"
+                url="./MayRecursos/MayJuegos/MayCJAhorcado/Preguntas.txt"
             Lista=[]
             # Primero abrimos el archivo en modo lectura (r)
             archivo = codecs.open(url,encoding='utf-8',mode="r")
