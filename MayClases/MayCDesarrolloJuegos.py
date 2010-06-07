@@ -39,7 +39,7 @@ class MayCDesarrolloJuegos(object):
 		self.Habilitado=p_Habilitado
 		self.Directorio_Imagenes=p_Directorio_Recursos_Iconos
 		self.Imagen_Fondo=None
-		self.Fondo(p_Imagen_Fondo,self.Directorio_Imagenes)
+		#self.Fondo(p_Imagen_Fondo,self.Directorio_Imagenes)
 		#Integrar Juego Selccionado
 		self.QueJuego(p_Juego)
 	

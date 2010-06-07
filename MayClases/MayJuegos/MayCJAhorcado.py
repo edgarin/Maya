@@ -6,7 +6,7 @@ pygame.init()
 #import defaultStyle
 
 #run = True
-screen = pygame.display.set_mode((640,480))
+#screen = pygame.display.set_mode((640,480))
 #print "hola"
 #defaultStyle.init(gui)
 #desktop = gui.Desktop()
