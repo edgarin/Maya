@@ -3,12 +3,12 @@ import pygame
 
 def init(gui):
     #Surface Loading
-    buttonsurf = pygame.image.load("art/button.png").convert_alpha()
-    closesurf = pygame.image.load('art/closebutton.png').convert_alpha()
-    shadesurf = pygame.image.load('art/shadebutton.png').convert_alpha()
-    checksurf = pygame.image.load('art/checkbox.png').convert_alpha()
-    optionsurf = pygame.image.load('Spg/art/optionbox.png').convert_alpha()
-    combosurf = pygame.image.load('Spg/art/combobox.png').convert_alpha()
+    buttonsurf = pygame.image.load("../../MayRecursos/Spg/art/button.png").convert_alpha()
+    closesurf = pygame.image.load('../../MayRecursos/Spg/art/closebutton.png').convert_alpha()
+    shadesurf = pygame.image.load('../../MayRecursos/Spg/art/shadebutton.png').convert_alpha()
+    checksurf = pygame.image.load('../../MayRecursos/Spg/art/checkbox.png').convert_alpha()
+    optionsurf = pygame.image.load('../../MayRecursos/Spg/art/optionbox.png').convert_alpha()
+    combosurf = pygame.image.load('../../MayRecursos/Spg/art/combobox.png').convert_alpha()
     
     #Default gui font
     gui.defaultFont = pygame.font.SysFont("Arial", 12)

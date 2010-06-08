@@ -534,7 +534,7 @@ class Desktop(Container):
             self._nextPosition = widget.position[0], widget.position[1] + widget.size[1]
 
 
-    def update(self,p_Evento):
+    def update(self,p_Evento=None):
         if (p_Evento==None):
             pygame.mouse.b1,pygame.mouse.b2,pygame.mouse.b3 = pygame.mouse.get_pressed()
         else:
