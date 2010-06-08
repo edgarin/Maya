@@ -21,26 +21,26 @@
 #       MA 02110-1301, USA. 
 #
 import pygame
-import os.path
+import os
 from MayCBoton import MayCBoton
 from MayJuegos.MayCJAhorcado import MayCJAhorcado
 
-import MayJuegos.gui
-from MayJuegos.gui import *
-import MayJuegos.defaultStyle
+#import MayJuegos.gui
+#from MayJuegos.gui import *
+#import MayJuegos.defaultStyle
 
 class MayCDesarrolloJuegos(object):
 	def __init__(self,p_Interface_Padre,p_Posicion,p_Tamano,p_Directorio_Recursos_Iconos,p_Imagen_Fondo,p_Juego,p_Habilitado=True):
 		#Inicializo SubMódulos de Pygamep_Mensaje
 		pygame.init()
-		#Interface en la cual la BarraMenu sera Insertada
-		self.Interface_Padre=p_Interface_Padre
 		self.Interface=pygame.Surface(p_Tamano,0,32)
-		MayJuegos.defaultStyle.init(MayJuegos.gui)
-		
-		self.Desktop = MayJuegos.gui.Desktop()
+#		MayJuegos.defaultStyle.init(MayJuegos.gui)
+#		self.Desktop = MayJuegos.gui.Desktop(self.Interface)
 			 
 		#Propiedades
+		#Interface en la cual la BarraMenu sera Insertada
+		self.Interface_Padre=p_Interface_Padre
+		
 		self.Tamano=p_Tamano
 		self.Posicion_Actual=p_Posicion	
 		self.Habilitado=p_Habilitado
@@ -61,11 +61,14 @@ class MayCDesarrolloJuegos(object):
 	def ObtenerFondo(self):
 		return self.Imagen_Fondo
 					
-	def Insertar(self):
-		self.InsertarFondo()
+	def Insertar(self,p_evento=None):
+#		self.Desktop.update(p_evento)
+#		self.Desktop.draw()
+#		self.InsertarFondo()
 		self.Interface_Padre.blit(self.Interface,self.Posicion_Actual)					
 		 
 	def QueJuego(self,p_Juego):
 		if (p_Juego==1):
-			self.Ahorcado=MayCJAhorcado(self.Interface,self.Desktop)
+			os.system('python /MayCJuegos/MayCJAhorcado.py')
+#			self.Ahorcado=MayCJAhorcado(self.Interface,self.Desktop)
 			pass

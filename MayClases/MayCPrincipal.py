@@ -75,8 +75,8 @@ class MayCPrincipal():
 			
 			#Creacion de la pantalla donde se desarrolla el juego
 			self.Interface_Juego=MayCDesarrolloJuegos(self.Pantalla_Principal,self.Posicion_Surface3,self.Tamano_Surface3,self.path_recursos_Ico,'MayIGJaguar.png',1)
-			#self.Interface_Juego.Insertar()
-			#self.Pantalla_Principal.blit(self.Fondo,(75,100))
+			self.Interface_Juego.Insertar()
+#			self.Pantalla_Principal.blit(self.Fondo,(75,100))
 			
 		except pygame.error, e:
 			print "Error al crear la Pantalla"
@@ -88,17 +88,13 @@ class MayCPrincipal():
 			SubBarraMenu=MayCBarraMenu(self.Pantalla_Principal,(0,0),(150,60),self.path_recursos_Ico,'Horizontal')
 			self.Menu_Superior.Menus[contador].CreacionSubMenu(self.Menus_xSubmenus[contador],SubBarraMenu,self.Imagenes_SubMenus[contador],self.Mensajes_SubMenus[contador])		
 			
-	def ReImprimir(self,p_Reimprime=None):
-		#Si se dio Click en un Menu con Submenu ya no vuelve a Reimprimir hasta q se de click 
-		#afuera del Menu seleccionado
-		if (p_Reimprime==True):
-			return				
+	def ReImprimir(self,p_Evento=None):
 		
 		#Inserccion Menu Lateral a la Pantalla
 		self.Menu_Lateral.Insertar()
 		
-		#Inserccion de la Interface donde se desarrolla el juego
-		#self.Interface_Juego.Insertar()
+#		Inserccion de la Interface donde se desarrolla el juego
+		self.Interface_Juego.Insertar()
 		
 		#Inserccion Menu Superior a la Pantalla
 		#Esta Inserccion incluye la de los submenus si se dio click a un Boton
@@ -128,7 +124,7 @@ class MayCPrincipal():
 					self.Menu_Superior.PresionDRaton(evento)
 					self.Menu_Lateral.PresionDRaton(evento)
 					#Reimprime la Pantalla Principal
-					self.ReImprimir()
+					self.ReImprimir(evento)
 				#Este Tipo de Evento indica que se ha movido el Raton
 				#Sobre la Pantalla Display							
 				if evento.type==MOUSEMOTION:
@@ -137,8 +133,6 @@ class MayCPrincipal():
 					self.Menu_Superior.MovimientoDRaton(evento)
 					self.Menu_Lateral.MovimientoDRaton(evento)
 					#Reimprime la Pantalla Principal
-					self.ReImprimir()
-			self.Interface_Juego.Desktop.update()
-			self.Interface_Juego.Desktop.draw()
-			#Actualiza la Pantalla						
-			pygame.display.update()
+					self.ReImprimir(evento)
+			#Actualiza la Pantalla Completa
+			pygame.display.flip()						

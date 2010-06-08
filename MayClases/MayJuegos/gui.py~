@@ -1,4 +1,5 @@
 import pygame
+from pygame import display
 from pygame import font
 from pygame import draw
 from pygame import Rect
@@ -507,19 +508,13 @@ class Container():
         return position[0] + parentPos[0], position[1] + parentPos[1] 
     
 class Desktop(Container):
-    def __init__(self,p_Interface=None):
+    def __init__(self):
         Container.__init__(self)
         
         #Tricky: TODO
         self.desktop = self
-        self.Interface=p_Interface
         
-        if(self.Interface==None):
-            self.size = pygame.display.get_surface().get_size()
-        else:    
-            self.size = p_Interface.get_size()
-            print 'Hola 1'
-        
+        self.size = pygame.display.get_surface().get_size()
         
     def add(self, widget):
         "Adds a widget on the desktop. If it \"gets the focus\", it will be placed on top of present widgets, otherwise behind them."        
@@ -534,13 +529,10 @@ class Desktop(Container):
             self._nextPosition = widget.position[0], widget.position[1] + widget.size[1]
 
 
-    def update(self,p_Evento):
-        if (p_Evento==None):
-            pygame.mouse.b1,pygame.mouse.b2,pygame.mouse.b3 = pygame.mouse.get_pressed()
-        else:
-            pygame.mouse.b1,pygame.mouse.b2,pygame.mouse.b3 = p_Evento.mouse.get_pressed()    
+    def update(self):
         #Checks all the events occurred in last frame
         #Mouse over / click
+        pygame.mouse.b1,pygame.mouse.b2,pygame.mouse.b3 = pygame.mouse.get_pressed()
         
         topmost = self.findTopMost(mouse.get_pos())
                
@@ -564,12 +556,8 @@ class Desktop(Container):
         #Supposing method update was called before this, all widgets have redrawn their
         #private surfaces so they are ready to be drawn on the screen.
         for widget in self.widgets:
-            if(self.Interface==None):
-                widget.draw(pygame.display.get_surface())
-            else:
-                widget.draw(self.Interface)
-#                print 'Hola 2'
-                    
+            widget.draw(display.get_surface())
+    
     def bringToFront(self, window):
         self.widgets.remove(window)
         self.widgets.append(window)
