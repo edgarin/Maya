@@ -4,7 +4,7 @@ import gui
 from gui import *
 pygame.init()
 import defaultStyle
-sys.path.append('../../MayClases')
+sys.path.append('./MayClases')
 from MayCLabel import MayCLabel
 
 run = True
@@ -67,16 +67,16 @@ class MayCJAhorcado():
             imagen=None
             Lista=[]
             for a in range(9):
-                imagen=pygame.image.load('../../MayRecursos/MayJuegos/MayCJAhorcado/'+str(a) + '.jpg')
+                imagen=pygame.image.load('./MayRecursos/MayJuegos/MayCJAhorcado/'+str(a) + '.jpg')
                 imagen= pygame.transform.scale(imagen, (200, 200))            
                 Lista.append(imagen)
             return Lista
 
         def Llenado(self,condicion):
             if (condicion=='R'):
-                url="../../MayRecursos/MayJuegos/MayCJAhorcado/Respuestas.txt"
+                url="./MayRecursos/MayJuegos/MayCJAhorcado/Respuestas.txt"
             else:
-                url="../../MayRecursos/MayJuegos/MayCJAhorcado/Preguntas.txt"
+                url="./MayRecursos/MayJuegos/MayCJAhorcado/Preguntas.txt"
             Lista=[]
             # Primero abrimos el archivo en modo lectura (r)
             archivo = codecs.open(url,encoding='utf-8',mode="r")
