@@ -48,7 +48,7 @@ class MayCDesarrolloJuegos(object):
 		self.Imagen_Fondo=None
 		#self.Fondo(p_Imagen_Fondo,self.Directorio_Imagenes)
 		#Integrar Juego Selccionado
-		self.QueJuego(p_Juego)
+#		self.QueJuego(p_Juego)
 	
 	def Fondo(self,p_Imagen_Nombre,p_Directorio_Imagen,p_Tamano=None):
 		if(p_Tamano==None):
@@ -69,6 +69,7 @@ class MayCDesarrolloJuegos(object):
 		 
 	def QueJuego(self,p_Juego):
 		if (p_Juego==1):
-			os.system('python /MayCJuegos/MayCJAhorcado.py')
+			#os.system('python MayClases/MayJuegos/MayCJAhorcado.py')
+			MayCJAhorcado()
 #			self.Ahorcado=MayCJAhorcado(self.Interface,self.Desktop)
 			pass

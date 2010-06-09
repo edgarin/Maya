@@ -26,20 +26,28 @@ from sys import exit
 from MayCBarraMenu import MayCBarraMenu
 from MayCDesarrolloJuegos import  MayCDesarrolloJuegos
 import os.path
+from MayJuegos.MayCJAhorcado import MayCJAhorcado
 			
 class MayCPrincipal():
 	def __init__(self,p_path_recursos):
 		self.path_recursos_Ico=p_path_recursos+"/MayIconos"
 		self.Tamano_Pantalla=(640, 500)
+		#Parametros Barra Superior
 		self.Imagenes_Barra_Superior=['MayI01.png','MayI02.png','MayI03.png']
 		self.Mensajes_Barra_Superior=['Mensaje Ayuda 1','Mensaje Ayuda 2','Mensaje Ayuda 3']
+		self.Ids_Botones_Barra_Superior=['btnArchivo','btnAcerca_de','btnIncognito']
 		
-		self.Imagenes_Barra_Lateral=['MayIBuy-shop.png','MayIComment-help.png','MayIPrint.png']
-		self.Mensajes_Barra_Lateral=['Mensaje Late 1','Mensaje Late 2','Mensaje Late 3']
-		
+		#Parametros Menus Barra Superior
 		self.Imagenes_SubMenus=[['MayINavegar.png','MayIOff.png'],['MayITools.png','MayIStop.png'],['MayIFrwd.png','MayIFavs-caution.png']]
 		self.Mensajes_SubMenus=[['Submensaje Ayuda 1','Submensaje Ayuda 2'],['Submensaje Ayuda 1','Submensaje Ayuda 2'],['Submensaje Ayuda 1','Submensaje Ayuda 2']]
+		self.Ids_Botones_SubMenus=[['Nuevo','Incognito'],['Ayuda','Incognito'],['Incognito','Incognito']]
 		self.Menus_xSubmenus=[2,2,2]
+		
+		#Parametros Barra Lateral
+		self.Imagenes_Barra_Lateral=['MayIBuy-shop.png','MayIComment-help.png','MayIPrint.png']
+		self.Mensajes_Barra_Lateral=['Mensaje Late 1','Mensaje Late 2','Mensaje Late 3']
+		self.Ids_Botones_Barra_Lateral=['btnAhorcado','btnMemoria','btnIncognito']
+		
 		#Menu Superior
 		self.Tamano_Surface1=(640,100)
 		self.Posicion_Surface1=(0,0)
@@ -64,13 +72,13 @@ class MayCPrincipal():
 			
 			#Creacion Menu Superior
 			self.Menu_Superior=MayCBarraMenu(self.Pantalla_Principal,self.Posicion_Surface1,self.Tamano_Surface1,self.path_recursos_Ico,'Horizontal')
-			self.Menu_Superior.CreacionMenus(3,self.Imagenes_Barra_Superior,self.Mensajes_Barra_Superior,(10,5),(70,90),p_Tipo='BMenuSuperior')
+			self.Menu_Superior.CreacionMenus(self.Ids_Botones_Barra_Superior,self.Imagenes_Barra_Superior,self.Mensajes_Barra_Superior,(10,5),(70,90),p_Tipo='BMenuSuperior',p_No_Menus=3)
 			self.Subme(len(self.Menu_Superior.Menus))
 			self.Menu_Superior.Insertar()
 			
 			#Creacion Menu Lateral
 			self.Menu_Lateral=MayCBarraMenu(self.Pantalla_Principal,self.Posicion_Surface2,self.Tamano_Surface2,self.path_recursos_Ico,'Vertical')
-			self.Menu_Lateral.CreacionMenus(3,self.Imagenes_Barra_Lateral,self.Mensajes_Barra_Lateral,(10,10),(80,90),p_Tipo='BMenuLateral')
+			self.Menu_Lateral.CreacionMenus(self.Ids_Botones_Barra_Lateral,self.Imagenes_Barra_Lateral,self.Mensajes_Barra_Lateral,(10,10),(80,90),p_Tipo='BMenuLateral',p_No_Menus=3)
 			self.Menu_Lateral.Insertar()
 			
 			#Creacion de la pantalla donde se desarrolla el juego
@@ -86,7 +94,7 @@ class MayCPrincipal():
 	def Subme(self,p_No_Menus):
 		for contador in range(p_No_Menus):
 			SubBarraMenu=MayCBarraMenu(self.Pantalla_Principal,(0,0),(150,60),self.path_recursos_Ico,'Horizontal')
-			self.Menu_Superior.Menus[contador].CreacionSubMenu(self.Menus_xSubmenus[contador],SubBarraMenu,self.Imagenes_SubMenus[contador],self.Mensajes_SubMenus[contador])		
+			self.Menu_Superior.Menus[contador].CreacionSubMenu(SubBarraMenu,self.Ids_Botones_SubMenus[contador],self.Imagenes_SubMenus[contador],self.Mensajes_SubMenus[contador],p_No_Botones=self.Menus_xSubmenus[contador])		
 			
 	def ReImprimir(self,p_Evento=None):
 		
@@ -122,7 +130,13 @@ class MayCPrincipal():
 					#El Evento PresionDRaton Verifica si el evento MOUSEBUTTONDOWN afecta a Menu
 					#Dependiendo de eso se realiza una Accion 
 					self.Menu_Superior.PresionDRaton(evento)
-					self.Menu_Lateral.PresionDRaton(evento)
+					if(self.Menu_Lateral.PresionDRaton(evento)):
+						print 'entro '+self.Menu_Lateral.Boton_NJuego.ID 
+						#print self.Menu_Lateral.Boton_NJuego.pos_x + ' ' + self.Menu_Lateral.Boton_NJuego.pos_y
+						print self.Menu_Lateral.Boton_NJuego.Imagen_Nombre
+						if(self.Menu_Lateral.Boton_NJuego.ID=='btnAhorcado'):
+							MayCJAhorcado()
+					
 					#Reimprime la Pantalla Principal
 					self.ReImprimir(evento)
 				#Este Tipo de Evento indica que se ha movido el Raton

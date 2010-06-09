@@ -2,21 +2,25 @@
 import pygame,random,time,codecs,sys
 import gui
 from gui import *
-pygame.init()
+
 import defaultStyle
 sys.path.append('./MayClases')
 from MayCLabel import MayCLabel
 
-run = True
-Pantalla_Principal = pygame.display.set_mode((640,480))
-defaultStyle.init(gui)
-desktop = gui.Desktop()
+#run = True
+#Pantalla_Principal = pygame.display.set_mode((640,480))
+#defaultStyle.init(gui)
+#desktop = gui.Desktop()
   
 class MayCJAhorcado():   
             
         def __init__(self):
-            self.Pantalla_Principal = Pantalla_Principal
-            self.buttonsalir = Button(position = (480,450),parent = desktop, text = "Salir")
+            pygame.init()
+            self.Pantalla_Principal = pygame.display.set_mode((640,480))
+            self.run=True
+            defaultStyle.init(gui)
+            self.desktop = gui.Desktop()
+            self.buttonsalir = Button(position = (480,450),parent = self.desktop, text = "Salir")
             self.buttonsalir.onClick = self.buttonsalir_onClick
             self.Imagen = ""
             #Respuestas
@@ -36,7 +40,7 @@ class MayCJAhorcado():
             #Letras Incorrectas
             self.LIncorrectas=""     
             self.GUI()
-                     
+            self.AhorcadoCiclo()         
         
         def GUI(self):
             self.lblIngresadas = MayCLabel(self.Pantalla_Principal, "Ingresadas: ","lblIngresadas",(25,25),"blanco")
@@ -57,9 +61,9 @@ class MayCJAhorcado():
             self.lblCorrectas = MayCLabel(self.Pantalla_Principal,self.ReSecretaImpr(),"lblCorrectas",(250,325),"blanco")        
             self.lblCorrectas.Insertar()
         
-            self.txtLetra = TextBox(position=(200,360),size=(200,0),text="",parent=desktop)            
+            self.txtLetra = TextBox(position=(200,360),size=(200,0),text="",parent=self.desktop)            
                 
-            self.btn = Button(position = (240,400),parent = desktop, text = "Ok")
+            self.btn = Button(position = (240,400),parent = self.desktop, text = "Ok")
             self.btn.onClick = self.evt_click          
             #btn = Button("OK", action = self.evt_click)
         
@@ -174,13 +178,12 @@ class MayCJAhorcado():
 #            imagen = pygame.transform.scale(imagen, (200,200))
             self.Pantalla_Principal.blit(a,(200,120))       
             
-
-MayCJAhorcado()
-
-while run:
-    for e in gui.setEvents(pygame.event.get()):
-        if e.type == pygame.QUIT:
-            run = False
-    desktop.update()
-    desktop.draw()
-    pygame.display.update()
+        def AhorcadoCiclo(self):
+            while self.run:
+                for e in gui.setEvents(pygame.event.get()):
+                    if e.type == pygame.QUIT:
+                        self.run = False
+                self.desktop.update()
+                self.desktop.draw()
+                pygame.display.update()
+#MayCJAhorcado()

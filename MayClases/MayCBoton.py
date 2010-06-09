@@ -29,7 +29,7 @@ class MayCBoton(object):
 		pygame.init()
 		#Propiedades
 		self.ID=p_ID
-		self.nombre=p_Imagen_Nombre
+		self.Imagen_Nombre=p_Imagen_Nombre
 		self.pos_x,self.pos_y=p_Coordenadas
 		self.Ancho,self.Alto=p_Tamano
 		self.Directorio_Imagenes=p_Directorio_Imagen
@@ -70,11 +70,11 @@ class MayCBoton(object):
 		if ((pos_x2>=self.pos_x and pos_x2<=(self.pos_x+self.Ancho)) and (pos_y2>=self.pos_y and pos_y2<=(self.pos_y+self.Alto))):
 			return True	
 			
-	def CreacionSubMenu(self,p_No_Botones,p_SubBarraMenu,p_Imagenes,p_Mensajes_Ayuda):
+	def CreacionSubMenu(self,p_SubBarraMenu,p_IDs,p_Imagenes,p_Mensajes_Ayuda,p_No_Botones=1):
 		#SubMenu que se Envia por Parametro, este pertenece a la Clase
 		#MayCBarraMenu
 		self.SubMenu=p_SubBarraMenu
-		self.SubMenu.CreacionMenus(p_No_Botones,p_Imagenes,p_Mensajes_Ayuda,(0,0),(40,50),p_Tipo='BSubMenu')
+		self.SubMenu.CreacionMenus(p_IDs,p_Imagenes,p_Mensajes_Ayuda,(0,0),(40,50),p_Tipo='BSubMenu',p_No_Menus=p_No_Botones)
 	
 	def ObtenerSubMenu(self):
 		return self.SubMenu.Obtener()	

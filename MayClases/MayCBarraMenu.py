@@ -59,9 +59,9 @@ class MayCBarraMenu(object):
 		self.Habilitado=p_Si_No
 		
 	def QuitarMensaje(self):
-		self.ReIniciarClase(p_QM=True)
+		self.ReIniciar(p_QM=True)
 	
-	def ReIniciarClase(self,p_QM=False):
+	def ReIniciar(self,p_QM=False):
 		self.Interface.fill((255,255,255))
 
 		if (p_QM==False):
@@ -71,8 +71,14 @@ class MayCBarraMenu(object):
 			self.Menus[contador].Insertar()
 			
 	def BusquedaMenu(self,evento):
+		posx,posy=self.Posicion_Actual
+		posxevt,posyevt=evento.pos
+		#Posicion en relacion al surface ya que cuando la interface se encuentra adentro de otra
+		#las posiciones de la que esta adentro empiezan siempre por 0
+		pos_equiva_surface=((posxevt-posx),(posyevt-posy))
+		
 		for contador in range(len(self.Menus)):
-			if (self.Menus[contador].Busqueda(evento.pos)):
+			if (self.Menus[contador].Busqueda(pos_equiva_surface)):
 				#Boton en Juego
 				self.Boton_NJuego=self.Menus[contador]
 				return self.Menus[contador]		
@@ -83,11 +89,11 @@ class MayCBarraMenu(object):
 	def ObtenerTamano(self):
 		return self.Tamano		
 	
-	def CreacionMenus(self,p_No_Menus,p_Imagenes,p_Mensajes_Ayuda,p_Posicion,p_Tamano,p_Tipo='Menu'):
+	def CreacionMenus(self,p_IDs,p_Imagenes,p_Mensajes_Ayuda,p_Posicion,p_Tamano,p_Tipo='Menu',p_No_Menus=1):
 		posx,posy=p_Posicion
 		ancho,alto=p_Tamano
 		for contador in range(p_No_Menus):
-			nombre='Menu'+str(contador)
+			nombre=p_IDs[contador]
 			Nombre_Imagen=p_Imagenes[contador]
 			Mensaje=p_Mensajes_Ayuda[contador]
 			
@@ -95,6 +101,7 @@ class MayCBarraMenu(object):
 				Boton_de_Menu=MayCBoton(self.Interface,nombre,Nombre_Imagen,self.Directorio_Recursos_Iconos,(posx+((ancho+10)*contador),posy),(ancho,alto),p_Tipo)
 			elif (self.Tipo=='Vertical'):
 				Boton_de_Menu=MayCBoton(self.Interface,nombre,Nombre_Imagen,self.Directorio_Recursos_Iconos,(posx,posy+((alto+10)*contador)),(ancho,alto),p_Tipo)
+				#print nombre + ' ' + str(posy+((alto+10)*contador))
 				
 			Boton_de_Menu.MensajeAyuda(Mensaje)
 			#Agregar Boton a la Interface
@@ -139,42 +146,44 @@ class MayCBarraMenu(object):
 				self.Raton_Click=True
 			else:	
 				self.Raton_Click=False
-				print 'Se dio click en un '+ self.Tipo
 		else:
 			pass
-				
+		print 'Se dio click en un '+ self.Tipo
+								
 	def MovimientoDRaton(self,p_Evento):
-		if(self.VerificaEvento(p_Evento)==False):
+		if(self.VerificaEvento(p_Evento)==True):
+			Boton=self.BusquedaMenu(p_Evento)
+		
+			if(self.Raton_Dentro==False and Boton != None):
+				self.EvtEntraRaton()
+				self.Boton_NJuego.Pos_Mensaje=p_Evento.pos
+			elif(self.Raton_Fuera==False and Boton ==None):
+				self.EvtSaleRaton()	
+		else:
 			#Prueba si se ha hecho este evento en el SubMenus
 			if(self.Raton_Click==True and self.Boton_NJuego.Tipo=='BMenuSuperior'):
 				self.Boton_NJuego.SubMenu.MovimientoDRaton(p_Evento)
 				
 			return
-		Boton=self.BusquedaMenu(p_Evento)
-		
-		if(self.Raton_Dentro==False and Boton != None):
-			self.EvtEntraRaton()
-			self.Boton_NJuego.Pos_Mensaje=p_Evento.pos
-		elif(self.Raton_Fuera==False and Boton ==None):
-			self.EvtSaleRaton()	
-					
+							
 	def PresionDRaton(self,p_Evento):
-		if(self.VerificaEvento(p_Evento)==False):
+		if(self.VerificaEvento(p_Evento)==True):
+			Boton=self.BusquedaMenu(p_Evento)
+		
+			if(Boton != None):
+				self.EvtClick()
+				return True
+			else:
+				self.ReIniciar()
+		else:
 			#Prueba si se ha hecho este evento en el SubMenus
 			if(self.Raton_Click==True and self.Boton_NJuego.Tipo=='BMenuSuperior'):
 				self.Boton_NJuego.SubMenu.PresionDRaton(p_Evento)
 				return
 			else:	
-				self.ReIniciarClase()
+				self.ReIniciar()
 				return
-		
-		Boton=self.BusquedaMenu(p_Evento)
-		
-		if( Boton != None):
-			self.EvtClick()
-		else:
-			self.ReIniciarClase()
-						
+									
 	#Busca si se concentra un Posible evento en la Interface
 	def VerificaEvento(self,p_evento):
 		pos_x2,pos_y2=p_evento.pos
