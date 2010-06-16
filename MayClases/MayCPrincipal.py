@@ -24,6 +24,7 @@ import pygame,time
 from pygame.locals import *
 from sys import exit
 from MayCBarraMenu import MayCBarraMenu
+
 from MayCDesarrolloJuegos import  MayCDesarrolloJuegos
 import os.path
 from MayJuegos.MayCJAhorcado import MayCJAhorcado
@@ -38,14 +39,14 @@ class MayCPrincipal():
 		self.Ids_Botones_Barra_Superior=['btnArchivo','btnAcerca_de','btnIncognito']
 		
 		#Parametros Menus Barra Superior
-		self.Imagenes_SubMenus=[['MayINavegar.png','MayIOff.png'],['MayITools.png','MayIStop.png'],['MayIFrwd.png','MayIFavs-caution.png']]
-		self.Mensajes_SubMenus=[['Submensaje Ayuda 1','Submensaje Ayuda 2'],['Submensaje Ayuda 1','Submensaje Ayuda 2'],['Submensaje Ayuda 1','Submensaje Ayuda 2']]
-		self.Ids_Botones_SubMenus=[['Nuevo','Incognito'],['Ayuda','Incognito'],['Incognito','Incognito']]
-		self.Menus_xSubmenus=[2,2,2]
+		self.Imagenes_SubBarraMenus=[['MayINavegar.png','MayIOff.png'],['MayITools.png','MayIStop.png'],['MayIFrwd.png','MayIFavs-caution.png']]
+		self.Mensajes_SubBarraMenus=[['Salir','Submensaje Ayuda 2'],['Submensaje Ayuda 1','Submensaje Ayuda 2'],['Submensaje Ayuda 1','Submensaje Ayuda 2']]
+		self.Ids_Botones_SubBarraMenus=[['Nuevo','Incognito'],['Ayuda','Incognito'],['Incognito','Incognito']]
+		self.Menus_xSubBarraMenus=[2,2,2]
 		
 		#Parametros Barra Lateral
 		self.Imagenes_Barra_Lateral=['MayIBuy-shop.png','MayIComment-help.png','MayIPrint.png']
-		self.Mensajes_Barra_Lateral=['Mensaje Late 1','Mensaje Late 2','Mensaje Late 3']
+		self.Mensajes_Barra_Lateral=['Juego Ahorcado Teorico','Mensaje Late 2','Mensaje Late 3']
 		self.Ids_Botones_Barra_Lateral=['btnAhorcado','btnMemoria','btnIncognito']
 		
 		#Menu Superior
@@ -70,72 +71,97 @@ class MayCPrincipal():
 			pygame.display.set_caption("Juegos Para el Desarrollo Maya")
 			self.Pantalla_Principal = pygame.display.set_mode(self.Tamano_Pantalla, 0, 32)
 			
-			#Creacion Menu Superior
-			self.Menu_Superior=MayCBarraMenu(self.Pantalla_Principal,self.Posicion_Surface1,self.Tamano_Surface1,self.path_recursos_Ico,'Horizontal')
-			self.Menu_Superior.CreacionMenus(self.Ids_Botones_Barra_Superior,self.Imagenes_Barra_Superior,self.Mensajes_Barra_Superior,(10,5),(70,90),p_Tipo='BMenuSuperior',p_No_Menus=3)
-			self.Subme(len(self.Menu_Superior.Menus))
-			self.Menu_Superior.Insertar()
+			########################################Creacion Menu Superior########################################################
+			self.Menu_Superior=MayCBarraMenu(self.Pantalla_Principal,self.Posicion_Surface1,self.Tamano_Surface1,self.path_recursos_Ico,'Horizontal',p_SubMenu=True)
+			#Parametros a enviar para la creacion de los Botones del Menu Superior
+			#Listas
+			L_IDs_Botones=self.Ids_Botones_Barra_Superior
+			L_Imagenes=self.Imagenes_Barra_Superior
+			L_Mensajes=self.Mensajes_Barra_Superior
 			
-			#Creacion Menu Lateral
+			self.Menu_Superior.CreacionBotones(L_IDs_Botones,L_Imagenes,L_Mensajes,p_Posicion=(10,5),p_Tamano=(70,90),p_No_Menus=3)
+			#Parametros a enviar para la creacion de los SubMenus del Menu Superior
+			#Listas
+			L_IdsBotones=self.Ids_Botones_SubBarraMenus
+			L_Imagenes=self.Imagenes_SubBarraMenus
+			L_Mensajes=self.Mensajes_SubBarraMenus
+			L_NoBotones=self.Menus_xSubBarraMenus
+			
+			self.Menu_Superior.CreacionSubBarraMenu(L_IdsBotones,L_Imagenes,L_Mensajes,L_NoBotones)
+
+			self.Menu_Superior.InsertarInterface()
+
+			#########################################Creacion Menu Lateral##########################################################
 			self.Menu_Lateral=MayCBarraMenu(self.Pantalla_Principal,self.Posicion_Surface2,self.Tamano_Surface2,self.path_recursos_Ico,'Vertical')
-			self.Menu_Lateral.CreacionMenus(self.Ids_Botones_Barra_Lateral,self.Imagenes_Barra_Lateral,self.Mensajes_Barra_Lateral,(10,10),(80,90),p_Tipo='BMenuLateral',p_No_Menus=3)
-			self.Menu_Lateral.Insertar()
 			
-			#Creacion de la pantalla donde se desarrolla el juego
+			#Parametros a enviar para la creacion de los Botones del Menu Lateral
+			#Listas
+			L_IDs_Botones=self.Ids_Botones_Barra_Lateral
+			L_Imagenes=self.Imagenes_Barra_Lateral
+			L_Mensajes=self.Mensajes_Barra_Lateral
+						
+			self.Menu_Lateral.CreacionBotones(L_IDs_Botones,L_Imagenes,L_Mensajes,p_Posicion=(10,10),p_Tamano=(80,90),p_No_Menus=3)
+			self.Menu_Lateral.InsertarInterface()
+			
+			##################################Creacion de la pantalla donde se desarrolla el juego#################################
 			self.Interface_Juego=MayCDesarrolloJuegos(self.Pantalla_Principal,self.Posicion_Surface3,self.Tamano_Surface3,self.path_recursos_Ico,'MayIGJaguar.png',1)
 			self.Interface_Juego.Insertar()
-#			self.Pantalla_Principal.blit(self.Fondo,(75,100))
+			
+			#Asigna eventos a los Objetos (Botones)
+			self.AsignacionEventos()
 			
 		except pygame.error, e:
 			print "Error al crear la Pantalla"
 			print e
 			exit()
 	
-	def Subme(self,p_No_Menus):
-		for contador in range(p_No_Menus):
-			SubBarraMenu=MayCBarraMenu(self.Pantalla_Principal,(0,0),(150,60),self.path_recursos_Ico,'Horizontal')
-			self.Menu_Superior.Menus[contador].CreacionSubMenu(SubBarraMenu,self.Ids_Botones_SubMenus[contador],self.Imagenes_SubMenus[contador],self.Mensajes_SubMenus[contador],p_No_Botones=self.Menus_xSubmenus[contador])		
-			
+	def AsignacionEventos(self):
+		#Barra Superior
+		self.Menu_Superior.Menus[0].SubBarraMenu.SubMenus[0].evtclick=self.Salir
+		
+		#Barra Lateral
+		self.Menu_Lateral.Menus[0].evtclick=self.Ahorcado
+					
+	def Salir(self):
+		exit()
+	
+	def Ahorcado(self):
+		MayCJAhorcado()
+					
 	def ReImprimir(self,p_Evento=None):
 		
-		#Inserccion Menu Lateral a la Pantalla
-		self.Menu_Lateral.Insertar()
-		
-#		Inserccion de la Interface donde se desarrolla el juego
+		#Inserccion de la Interface donde se desarrolla el juego
 		self.Interface_Juego.Insertar()
+				
+		#Inserccion Menu Lateral a la Pantalla
+		self.Menu_Lateral.InsertarInterface()
 		
 		#Inserccion Menu Superior a la Pantalla
 		#Esta Inserccion incluye la de los submenus si se dio click a un Boton
-		self.Menu_Superior.Insertar()
+		self.Menu_Superior.InsertarInterface()
 		
-		self.Menu_Superior.MensajesAyuda()
-		self.Menu_Lateral.MensajesAyuda()
+		#Inserccion de Mensajes de Ayuda (Tooltips)
+	#	self.Menu_Superior.InsertarMensajesAyuda()
+	#	self.Menu_Lateral.InsertarMensajesAyuda()
 												
 	def MayaCiclo(self):
-		entro=False
-		Reimprime=False
-		Boton_Jue=None
-		Interface_Jue=None
-		
 		#Capturador de Eventos
 		while True:
 			for evento in pygame.event.get():
 				#El Evento Quit ocurre cuando se ha presionado el boton de cerrar
 				if evento.type==QUIT:
-					exit()
+					self.Salir()
 					
 				#Este Tipo de Evento indica que se ha Presionado algun Boton del Raton
 				#Sobre la Pantalla Display		
 				if evento.type==MOUSEBUTTONDOWN:
 					#El Evento PresionDRaton Verifica si el evento MOUSEBUTTONDOWN afecta a Menu
 					#Dependiendo de eso se realiza una Accion 
-					self.Menu_Superior.PresionDRaton(evento)
-					if(self.Menu_Lateral.PresionDRaton(evento)):
-						print 'entro '+self.Menu_Lateral.Boton_NJuego.ID 
-						#print self.Menu_Lateral.Boton_NJuego.pos_x + ' ' + self.Menu_Lateral.Boton_NJuego.pos_y
-						print self.Menu_Lateral.Boton_NJuego.Imagen_Nombre
-						if(self.Menu_Lateral.Boton_NJuego.ID=='btnAhorcado'):
-							MayCJAhorcado()
+					if(self.Menu_Superior.PresionDRaton(evento)):
+						self.ReImprimir(evento)
+						continue
+					
+					self.Menu_Lateral.PresionDRaton(evento)
 					
 					#Reimprime la Pantalla Principal
 					self.ReImprimir(evento)
@@ -144,7 +170,9 @@ class MayCPrincipal():
 				if evento.type==MOUSEMOTION:
 					#El Evento MovimientoDRaton Verifica si el evento MOUSEMOTION afecta a Menu
 					#Dependiendo de eso se realiza una Accion 
-					self.Menu_Superior.MovimientoDRaton(evento)
+					if(self.Menu_Superior.MovimientoDRaton(evento)):
+						self.ReImprimir(evento)
+						continue
 					self.Menu_Lateral.MovimientoDRaton(evento)
 					#Reimprime la Pantalla Principal
 					self.ReImprimir(evento)

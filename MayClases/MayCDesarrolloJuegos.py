@@ -46,7 +46,7 @@ class MayCDesarrolloJuegos(object):
 		self.Habilitado=p_Habilitado
 		self.Directorio_Imagenes=p_Directorio_Recursos_Iconos
 		self.Imagen_Fondo=None
-		#self.Fondo(p_Imagen_Fondo,self.Directorio_Imagenes)
+		self.Fondo(p_Imagen_Fondo,self.Directorio_Imagenes)
 		#Integrar Juego Selccionado
 #		self.QueJuego(p_Juego)
 	
@@ -64,7 +64,7 @@ class MayCDesarrolloJuegos(object):
 	def Insertar(self,p_evento=None):
 #		self.Desktop.update(p_evento)
 #		self.Desktop.draw()
-#		self.InsertarFondo()
+		self.InsertarFondo()
 		self.Interface_Padre.blit(self.Interface,self.Posicion_Actual)					
 		 
 	def QueJuego(self,p_Juego):

@@ -24,7 +24,7 @@ import pygame
 import os.path
 
 class MayCBoton(object):
-	def __init__(self,p_Interface_Padre,p_ID,p_Imagen_Nombre,p_Directorio_Imagen,p_Coordenadas,p_Tamano,p_Tipo,p_Habilitado=True):
+	def __init__(self,p_Interface_Padre,p_ID,p_Imagen_Nombre,p_Directorio_Imagen,p_Coordenadas,p_Tamano,p_Habilitado=True):
 		#Inicializo SubMódulos de Pygamep_Mensaje
 		pygame.init()
 		#Propiedades
@@ -36,9 +36,9 @@ class MayCBoton(object):
 		self.imagen=pygame.image.load(os.path.join(p_Directorio_Imagen,p_Imagen_Nombre))
 		self.imagen=pygame.transform.scale(self.imagen,(self.Ancho,self.Alto))
 		self.Mensaje_Ayuda=''
-		self.Tipo=p_Tipo
 		self.Pos_Mensaje=None
-		self.SubMenu=None
+		self.SubBarraMenu=None
+		self.evtclick=None
 		#Menu al Que Pertenece le Boton
 		self.Interface_Padre=p_Interface_Padre 
 		self.Habilitado=p_Habilitado
@@ -51,7 +51,7 @@ class MayCBoton(object):
 			self.Interface_Padre.blit(self.Mensaje_Ayuda,self.Pos_Mensaje)
 		else:
 			p_Interface.blit(self.Mensaje_Ayuda,self.Pos_Mensaje)
-				
+	
 	def Habilitar(self,p_Si_No):
 		self.Habilitado=p_Si_No
 		
@@ -64,24 +64,27 @@ class MayCBoton(object):
 	def ObtenerMensaje(self):
 		return self.Mensaje_Ayuda
 			
-	def Busqueda(self,posicion_click):
+	def Busqueda(self,posicion_click,p_pos_Interface_Padre):
 		pos_x2,pos_y2=posicion_click
-		
-		if ((pos_x2>=self.pos_x and pos_x2<=(self.pos_x+self.Ancho)) and (pos_y2>=self.pos_y and pos_y2<=(self.pos_y+self.Alto))):
+		#Se saca la posicion en relacion a la Pantalla Principal
+		pospadrex,pospadrey=p_pos_Interface_Padre
+		pos_x=pospadrex+self.pos_x
+		pos_y=pospadrey+self.pos_y
+				
+		if ((pos_x2>=pos_x and pos_x2<=(pos_x+self.Ancho)) and (pos_y2>=pos_y and pos_y2<=(pos_y+self.Alto))):
 			return True	
 			
-	def CreacionSubMenu(self,p_SubBarraMenu,p_IDs,p_Imagenes,p_Mensajes_Ayuda,p_No_Botones=1):
-		#SubMenu que se Envia por Parametro, este pertenece a la Clase
-		#MayCBarraMenu
-		self.SubMenu=p_SubBarraMenu
-		self.SubMenu.CreacionMenus(p_IDs,p_Imagenes,p_Mensajes_Ayuda,(0,0),(40,50),p_Tipo='BSubMenu',p_No_Menus=p_No_Botones)
+	def CreacionSubBarraMenu(self,p_SubBarramenu,p_IDs,p_Imagenes,p_Mensajes_Ayuda,p_No_Botones=1):
+		self.SubBarraMenu=p_SubBarramenu
+		self.SubBarraMenu.CreacionBotones(p_IDs,p_Imagenes,p_Mensajes_Ayuda,p_Posicion=(0,0),p_Tamano=(40,50),p_No_SMenus=p_No_Botones)
 	
 	def ObtenerSubMenu(self):
-		return self.SubMenu.Obtener()	
+		return self.SubMenu	
 		
-	def Click(self,p_Interface):		
-		if (self.Tipo=='BMenuSuperior'):
-			p_Interface.blit(self.SubMenu.Obtener(),(0,100))
+	def Click(self):	
+		if(self.evtclick==None):
+			return	
+		self.evtclick()
 	
 	def PosMensaje(self,p_Pos_Mensaje):
 		self.Pos_Mensaje=p_Pos_Mensaje					
