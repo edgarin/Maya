@@ -55,11 +55,6 @@ class MayCLabel(object):
     def Text(self, Mensaje):
         self.Texto = Mensaje
         self.CrearLabel()
-        self.Insertar()
-    
-    def NuevoEstado(self, Mensaje):
-        self.Texto = "Estado: " + Mensaje
-        self.CrearLabel()
         self.Insertar()    
         
         

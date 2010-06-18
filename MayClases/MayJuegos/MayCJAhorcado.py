@@ -166,13 +166,13 @@ class MayCJAhorcado():
             #self.lblEstado.text("Estado")
         
             if LetraIngre.strip() == '':
-                self.lblEstado.NuevoEstado(' Debe Ingresar una Letra')
+                self.NuevoEstado(' Debe Ingresar una Letra')
             elif len(LetraIngre) > 1:
-                self.lblEstado.NuevoEstado(' Ingrese Solamente una Letra')
+                self.NuevoEstado(' Ingrese Solamente una Letra')
             elif LetraIngre in LeIngresadas:
-                self.lblEstado.NuevoEstado(' Usted ya Ingresado esta letra')
+                self.NuevoEstado(' Usted ya Ingresado esta letra')
             elif LetraIngre not in 'abcdefghijklmnopqrstuvwxyz':
-                self.lblEstado.NuevoEstado(' Ingrese Letras Solamente')
+                self.NuevoEstado(' Ingrese Letras Solamente')
             else:
                 return True 
 
@@ -198,6 +198,10 @@ class MayCJAhorcado():
             a = imagen
 #            imagen = pygame.transform.scale(imagen, (200,200))
             self.Pantalla_Principal.blit(a,(200,120))
+        
+        def NuevoEstado(self, Mensaje):
+            self.lblEstado.Texto = "Estado: " + Mensaje
+            self.lblEstado.Insertar()
 
         def AhorcadoCiclo(self):
             while self.run:
