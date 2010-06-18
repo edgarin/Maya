@@ -36,7 +36,7 @@ class MayCBoton(object):
 		self.imagen=pygame.image.load(os.path.join(p_Directorio_Imagen,p_Imagen_Nombre))
 		self.imagen=pygame.transform.scale(self.imagen,(self.Ancho,self.Alto))
 		self.Mensaje_Ayuda=''
-		self.Pos_Mensaje=None
+		self.Pos_Mensaje=(0,0)
 		self.SubBarraMenu=None
 		self.evtclick=None
 		#Menu al Que Pertenece le Boton
@@ -50,6 +50,7 @@ class MayCBoton(object):
 		if (p_Interface==None):
 			self.Interface_Padre.blit(self.Mensaje_Ayuda,self.Pos_Mensaje)
 		else:
+			print self.Pos_Mensaje
 			p_Interface.blit(self.Mensaje_Ayuda,self.Pos_Mensaje)
 	
 	def Habilitar(self,p_Si_No):
