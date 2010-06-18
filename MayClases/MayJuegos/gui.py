@@ -967,6 +967,8 @@ class TextBox(Widget):
                         self.currpos = len(self.text)
                     elif e.key == pygame.K_RETURN:
                         self.enter = True
+                    elif e.key == pygame.K_KP_ENTER:
+                        self.enter = True
                     elif e.key in (pygame.K_RSHIFT, pygame.K_LSHIFT):
                         pass
                     else:
