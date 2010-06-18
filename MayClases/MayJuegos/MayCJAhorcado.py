@@ -129,7 +129,7 @@ class MayCJAhorcado():
         
             return PalabraFinal    
         
-        def evt_click(self,widget):
+        def evt_click(self):
             self.ComprobacionMB()    
             self.ComprobacionPierde()
             self.LimpiarTxt()
@@ -197,13 +197,15 @@ class MayCJAhorcado():
         def ImprimirImagen(self, imagen):
             a = imagen
 #            imagen = pygame.transform.scale(imagen, (200,200))
-            self.Pantalla_Principal.blit(a,(200,120))       
-            
+            self.Pantalla_Principal.blit(a,(200,120))
+
         def AhorcadoCiclo(self):
             while self.run:
                 for e in gui.setEvents(pygame.event.get()):
                     if e.type == pygame.QUIT:
                         self.run = False
+                    if self.txtLetra.enter == True:
+                        self.evt_click()                        
                 self.desktop.update()
                 self.desktop.draw()
                 pygame.display.update()

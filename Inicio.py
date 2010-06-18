@@ -27,3 +27,4 @@ path_recursos="./MayRecursos"
 
 if __name__ == '__main__':
 	MayCPrincipal(path_recursos)
+	

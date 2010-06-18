@@ -853,7 +853,7 @@ class TextBox(Widget):
     REFRESH_ON_MOUSE_LEAVE = False
     REFRESH_ON_MOUSE_DOWN = False
     
-    def __init__(self,  position = (0,0), size = (120,20), parent = None, style = None, enabled = True, text = ""):
+    def __init__(self,  position = (0,0), size = (120,20), parent = None, style = None, enabled = True, text = "",enter = False):
         if not style:
             if not defaultTextBoxStyle:
                 import gui
@@ -867,6 +867,7 @@ class TextBox(Widget):
         self.text = text
         self.currpos = len(text)
         self._textStartX = 0
+        self.enter = enter
         self.surf = None
         self.textWidth = 0
         
@@ -893,7 +894,7 @@ class TextBox(Widget):
         if self.hasFocus:
             suffix = "-focus"
         else:
-            suffix = "-normal"
+            suffix = "-focus"
         
         #Background
         self.surf.fill(self.style['bg-color' + suffix])
@@ -939,8 +940,8 @@ class TextBox(Widget):
         #Letter entry
         if self.currpos > len(self.text):
             self.currpos = len(self.text)
-            
-        if self.hasFocus:           
+
+        if True:           
             for e in events:
                 if e.type == pygame.KEYDOWN:  
                     if e.key == pygame.K_BACKSPACE:
@@ -964,11 +965,14 @@ class TextBox(Widget):
                         self.currpos = 0
                     elif e.key == pygame.K_END:
                         self.currpos = len(self.text)
-                    elif e.key in (pygame.K_RSHIFT, pygame.K_LSHIFT, pygame.K_RETURN):
+                    elif e.key == pygame.K_RETURN:
+                        self.enter = True
+                    elif e.key in (pygame.K_RSHIFT, pygame.K_LSHIFT):
                         pass
                     else:
                         self.text = self.text[:self.currpos] +  e.unicode + self.text[self.currpos:]
-                        self.currpos += 1                   
+                        self.currpos += 1
+                        self.enter = False                   
                     
         Widget.update(self, topmost)
         
