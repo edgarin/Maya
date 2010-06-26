@@ -23,11 +23,11 @@
 import pygame,time
 from pygame.locals import *
 from sys import exit
-from MayCBarraMenu import MayCBarraMenu
+from MayAPI.MayCBarraMenu import MayCBarraMenu
 
-from MayCDesarrolloJuegos import  MayCDesarrolloJuegos
+from MayAPI.MayCDesarrolloJuegos import  MayCDesarrolloJuegos
 import os.path
-from MayJuegos.MayCJAhorcado import MayCJAhorcado
+from MayJuegos.Ahorcado.MayCJAhorcado import MayCJAhorcado
 			
 class MayCPrincipal():
 	def __init__(self,p_path_recursos):

@@ -21,17 +21,13 @@
 #       MA 02110-1301, USA.
 
 import pygame,random,time,codecs,sys
+sys.path.append('./MayClases/MayJuegos')
 import gui
 from gui import *
-
 import defaultStyle
-sys.path.append('./MayClases')
-from MayCLabel import MayCLabel
 
-#run = True
-#Pantalla_Principal = pygame.display.set_mode((640,480))
-#defaultStyle.init(gui)
-#desktop = gui.Desktop()
+sys.path.append('./MayClases/MayAPI')
+from MayCLabel import MayCLabel
   
 class MayCJAhorcado():   
             
@@ -87,21 +83,21 @@ class MayCJAhorcado():
             self.btn = Button(position = (240,400),parent = self.desktop, text = "Ok")
             self.btn.onClick = self.evt_click          
             #btn = Button("OK", action = self.evt_click)
-        
+                                
         def CargadoImagnes(self):
             imagen=None
             Lista=[]
             for a in range(9):
-                imagen=pygame.image.load('./MayRecursos/MayJuegos/MayCJAhorcado/'+str(a) + '.jpg')
+                imagen=pygame.image.load('./MayRecursos/MayJuegos/Ahorcado/'+str(a) + '.jpg')
                 imagen= pygame.transform.scale(imagen, (200, 200))            
                 Lista.append(imagen)
             return Lista
 
         def Llenado(self,condicion):
             if (condicion=='R'):
-                url="./MayRecursos/MayJuegos/MayCJAhorcado/Respuestas.txt"
+                url="./MayRecursos/MayJuegos/Ahorcado/Respuestas.txt"
             else:
-                url="./MayRecursos/MayJuegos/MayCJAhorcado/Preguntas.txt"
+                url="./MayRecursos/MayJuegos/Ahorcado/Preguntas.txt"
             Lista=[]
             # Primero abrimos el archivo en modo lectura (r)
             archivo = codecs.open(url,encoding='utf-8',mode="r")
@@ -179,12 +175,12 @@ class MayCJAhorcado():
         def ComprobacionPierde(self):
             # Check if player has guessed too many times and lost
             if len(self.LIncorrectas) == 6:
-                self.lblEstado.Append('Pisaste! XD')
+                self.lblEstado.Text('Pisaste! XD')
                 self.ImprimirImagen(self.ListaImagenes[6])
                 time.sleep(1)
                 self.ImprimirImagen(self.ListaImagenes[7])
                 time.sleep(1)
-                self.ImprimirImagen(self.ListaImagenes[0])
+                self.ImprimirImagen(self.ListaImagenes[8])
 
         def getRandomIndex(self,Lmax):
             # This function returns a random string from the passed list of strings.
@@ -198,7 +194,8 @@ class MayCJAhorcado():
             a = imagen
 #            imagen = pygame.transform.scale(imagen, (200,200))
             self.Pantalla_Principal.blit(a,(200,120))
-        
+            pygame.display.update()
+                        
         def NuevoEstado(self, Mensaje):
             self.lblEstado.Texto = "Estado: " + Mensaje
             self.lblEstado.Insertar()
@@ -210,7 +207,7 @@ class MayCJAhorcado():
                         self.run = False
                     if self.txtLetra.enter == True:
                         self.evt_click()                        
-                self.desktop.update()
-                self.desktop.draw()
-                pygame.display.update()
+                    self.desktop.update()
+                    self.desktop.draw()
+                    pygame.display.update()
 #MayCJAhorcado()

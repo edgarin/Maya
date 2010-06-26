@@ -23,7 +23,6 @@
 import pygame
 import os
 from MayCBoton import MayCBoton
-from MayJuegos.MayCJAhorcado import MayCJAhorcado
 
 #import MayJuegos.gui
 #from MayJuegos.gui import *
@@ -70,6 +69,5 @@ class MayCDesarrolloJuegos(object):
 	def QueJuego(self,p_Juego):
 		if (p_Juego==1):
 			#os.system('python MayClases/MayJuegos/MayCJAhorcado.py')
-			MayCJAhorcado()
 #			self.Ahorcado=MayCJAhorcado(self.Interface,self.Desktop)
 			pass
