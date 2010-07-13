@@ -518,9 +518,7 @@ class Desktop(Container):
             self.size = pygame.display.get_surface().get_size()
         else:    
             self.size = p_Interface.get_size()
-            print 'Hola 1'
-        
-        
+              
     def add(self, widget):
         "Adds a widget on the desktop. If it \"gets the focus\", it will be placed on top of present widgets, otherwise behind them."        
         self.focused = widget
@@ -568,7 +566,6 @@ class Desktop(Container):
                 widget.draw(pygame.display.get_surface())
             else:
                 widget.draw(self.Interface)
-#                print 'Hola 2'
                     
     def bringToFront(self, window):
         self.widgets.remove(window)
@@ -935,7 +932,12 @@ class TextBox(Widget):
             draw.line(self.surf,color_dark, (0,0), (0,self.size[1]-2)) #LEFT
             draw.line(self.surf,color_light, (1,self.size[1]-1), (self.size[0],self.size[1]-1)) #LEFT
             draw.line(self.surf,color_light, (self.size[0]-1,1), (self.size[0]-1,self.size[1]-1)) #LEFT
-                                                   
+    
+    def CEnter(self,p_Enter):
+        self.enter=p_Enter
+    def ObtEnter(self):
+        return self.enter
+                                                       
     def update(self, topmost):
         #Letter entry
         if self.currpos > len(self.text):
@@ -966,15 +968,15 @@ class TextBox(Widget):
                     elif e.key == pygame.K_END:
                         self.currpos = len(self.text)
                     elif e.key == pygame.K_RETURN:
-                        self.enter = True
+                        self.CEnter(True)
                     elif e.key == pygame.K_KP_ENTER:
-                        self.enter = True
+                        self.CEnter(True)
                     elif e.key in (pygame.K_RSHIFT, pygame.K_LSHIFT):
                         pass
                     else:
                         self.text = self.text[:self.currpos] +  e.unicode + self.text[self.currpos:]
                         self.currpos += 1
-                        self.enter = False                   
+                        self.CEnter(False)                   
                     
         Widget.update(self, topmost)
         

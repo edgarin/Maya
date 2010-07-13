@@ -34,9 +34,9 @@ class MayCLabel(object):
         self.Texto=p_Texto
         self.Interface_Padre = p_Interface_Padre
         self.Color = p_Color
-    
-    def Insertar(self):
         self.CrearLabel()
+                
+    def Insertar(self):
         self.Interface_Padre.blit(self.Texto_Final,(self.pos_x,self.pos_y))
 
     def CrearLabel(self):

@@ -109,6 +109,7 @@ class MayCPrincipal():
 			
 			#Asigna eventos a los Objetos (Botones)
 			self.AsignacionEventos()
+			pygame.display.update()
 			
 		except pygame.error, e:
 			print "Error al crear la Pantalla"
@@ -139,42 +140,38 @@ class MayCPrincipal():
 		#Inserccion Menu Superior a la Pantalla
 		#Esta Inserccion incluye la de los submenus si se dio click a un Boton
 		self.Menu_Superior.InsertarInterface()
-		
-		#Inserccion de Mensajes de Ayuda (Tooltips)
-	#	self.Menu_Superior.InsertarMensajesAyuda()
-	#	self.Menu_Lateral.InsertarMensajesAyuda()
+	
+		#Actualiza la Pantalla Completa
+		pygame.display.update()	
 												
 	def MayaCiclo(self):
 		#Capturador de Eventos
 		while True:
-			for evento in pygame.event.get():
+			evento=pygame.event.wait()
 				#El Evento Quit ocurre cuando se ha presionado el boton de cerrar
-				if evento.type==QUIT:
-					self.Salir()
+			if evento.type==pygame.QUIT:
+				self.Salir()
 					
-				#Este Tipo de Evento indica que se ha Presionado algun Boton del Raton
-				#Sobre la Pantalla Display		
-				if evento.type==MOUSEBUTTONDOWN:
-					#El Evento PresionDRaton Verifica si el evento MOUSEBUTTONDOWN afecta a Menu
-					#Dependiendo de eso se realiza una Accion 
-					if(self.Menu_Superior.PresionDRaton(evento)):
-						self.ReImprimir(evento)
-						continue
-					
-					self.Menu_Lateral.PresionDRaton(evento)
-					
+			#Este Tipo de Evento indica que se ha Presionado algun Boton del Raton
+			#Sobre la Pantalla Display		
+			if evento.type==pygame.MOUSEBUTTONDOWN:
+				#El Evento PresionDRaton Verifica si el evento MOUSEBUTTONDOWN afecta a Menu
+				#Dependiendo de eso se realiza una Accion 
+				if(self.Menu_Superior.PresionDRaton(evento)):
 					#Reimprime la Pantalla Principal
 					self.ReImprimir(evento)
-				#Este Tipo de Evento indica que se ha movido el Raton
-				#Sobre la Pantalla Display							
-				if evento.type==MOUSEMOTION:
-					#El Evento MovimientoDRaton Verifica si el evento MOUSEMOTION afecta a Menu
-					#Dependiendo de eso se realiza una Accion 
-					if(self.Menu_Superior.MovimientoDRaton(evento)):
-						self.ReImprimir(evento)
-						continue
-					self.Menu_Lateral.MovimientoDRaton(evento)
+					continue
+				elif(self.Menu_Lateral.PresionDRaton(evento)):	
 					#Reimprime la Pantalla Principal
 					self.ReImprimir(evento)
-			#Actualiza la Pantalla Completa
-			pygame.display.flip()						
+			#Este Tipo de Evento indica que se ha movido el Raton
+			#Sobre la Pantalla Display							
+			if evento.type==pygame.MOUSEMOTION:
+				#El Evento MovimientoDRaton Verifica si el evento MOUSEMOTION afecta a Menu
+				#Dependiendo de eso se realiza una Accion 
+				if(self.Menu_Superior.MovimientoDRaton(evento)):
+					self.ReImprimir(evento)
+					continue
+				elif(self.Menu_Lateral.MovimientoDRaton(evento)):
+					#Reimprime la Pantalla Principal
+					self.ReImprimir(evento)					
