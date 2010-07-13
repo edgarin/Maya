@@ -146,7 +146,9 @@ class MayCPrincipal():
 												
 	def MayaCiclo(self):
 		#Capturador de Eventos
+		clock = pygame.time.Clock()
 		while True:
+			clock.tick(25)
 			evento=pygame.event.wait()
 				#El Evento Quit ocurre cuando se ha presionado el boton de cerrar
 			if evento.type==pygame.QUIT:

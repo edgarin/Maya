@@ -20,11 +20,13 @@
 #       Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston,
 #       MA 02110-1301, USA.
 #
-import os,sys
+import pygame,os,sys
 from MayClases.MayCPrincipal import MayCPrincipal
 
 path_recursos="./MayRecursos"
+clock = pygame.time.Clock()
 
 if __name__ == '__main__':
+	dt = clock.tick(20)
 	MayCPrincipal(path_recursos)
 	

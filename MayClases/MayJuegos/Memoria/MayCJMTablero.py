@@ -325,7 +325,9 @@ class MayCJMTablero():
 		pygame.display.update()
 			
 	def MemoriaCiclo(self):
+			clock = pygame.time.Clock()
 			while self.run:
+				clock.tick(20)
 				#pygame.event.wait() hace que el while se quede dormido hasta que ocurra un evento
 				evento=pygame.event.wait()
 				if evento.type == pygame.QUIT:

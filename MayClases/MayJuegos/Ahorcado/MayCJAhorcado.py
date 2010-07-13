@@ -201,7 +201,9 @@ class MayCJAhorcado():
             self.lblEstado.Insertar()
 
         def AhorcadoCiclo(self):
+            clock = pygame.time.Clock()
             while self.run:
+                clock.tick(20)
                 for e in gui.setEvents(pygame.event.get()):
                     if e.type == pygame.QUIT:
                         self.run = False
