@@ -12,7 +12,7 @@
 #       
 #       This program is distributed in the hope that it will be useful,
 #       but WITHOUT ANY WARRANTY; without even the implied warranty of
-#       MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+#       MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See thel
 #       GNU General Public License for more details.
 #       
 #       You should have received a copy of the GNU General Public License
@@ -21,12 +21,23 @@
 #       MA 02110-1301, USA.
 #
 import pygame,os,sys
-from MayClases.MayCPrincipal import MayCPrincipal
-
-path_recursos="./MayRecursos"
+from MayModulos.MayCPrincipal import MayCPrincipal
+import MayModulos.GlobalesI
+from MayModulos.MayCNucleo import MayCNucleo
+import thread
+#Inicializo los Submódulos de Pygame
+pygame.init()
+#thread.start_new_thread(Globales.CicloEventos, ())
 clock = pygame.time.Clock()
 
 if __name__ == '__main__':
-	dt = clock.tick(20)
-	MayCPrincipal(path_recursos)
+	GI=MayModulos.GlobalesI
+	path_recursos_Ico = GI.path_recursosico
+	#dt = clock.tick(20)
+	pygame.display.set_icon(pygame.image.load(os.path.join(path_recursos_Ico, "MayI01.png")))
+	pygame.display.set_caption("Juegos Para el Desarrollo Maya")
+	Pantalla = pygame.display.set_mode(GI.Tamano_Pantalla, 0, 32)
+	Nucleo=MayCNucleo()
+	Nucleo.CDirRecursos(path_recursos_Ico)
+	MayCPrincipal()
 	
